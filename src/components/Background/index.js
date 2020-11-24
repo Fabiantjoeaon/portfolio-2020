@@ -16,7 +16,7 @@ function Plane({
   shouldTransition,
   divisor,
   z,
-  hasColor,
+  hasColor = false,
   FBMDivider = 0.86875,
   path,
 }) {
@@ -28,7 +28,7 @@ function Plane({
   const isActiveOnHome = useRouteActive(path, "/");
 
   const [{ pos }, setPlanePos] = useSpring(() => ({
-    pos: [0, shouldTransition ? -2 : 0, z],
+    pos: [0, shouldTransition ? -1 : 0, z],
     config: {
       friction: 126,
     },
@@ -36,49 +36,76 @@ function Plane({
 
   const [{ opacity }, setPlaneOpacity] = useSpring(() => ({
     opacity: shouldTransition ? 0 : 1,
-    config: {
-      mass: 4,
-      friction: 200,
-      tension: 100,
-      precision: 0.001,
-    },
+  }));
+
+  const [{ colorTransform }, setColorTransform] = useSpring(() => ({
+    colorTransform: !hasColor ? 0 : 1,
   }));
 
   const uniforms = useMemo(
     () => ({
       uTime: { value: 0 },
       uFBMDivider: { value: FBMDivider },
-      uHasColor: { value: hasColor ? 1 : 0 },
+      uHasColor: {
+        value: colorTransform?.get(),
+      },
       uAlpha: {
-        value: opacity?.value || shouldTransition ? 0 : 1,
+        value: opacity?.get() || shouldTransition ? 0 : 1,
       },
     }),
     []
   );
 
   useEffect(() => {
+    console.log("HERE", isActiveOnHome);
     async function animate() {
       if (isActiveOnHome) {
-        await sleep(600);
-        setPlanePos({
-          pos: [0, 0, z],
-        });
-        await sleep(600);
-        await sleep();
-        setPlaneOpacity({
-          opacity: 1,
-        });
+        if (shouldTransition) {
+          await sleep(600);
+          setPlanePos({
+            pos: [0, 0, z],
+          });
+          await sleep(600);
+          setPlaneOpacity({
+            opacity: 1,
+            config: {
+              mass: 3,
+              friction: 500,
+              tension: 200,
+              precision: 0.001,
+            },
+          });
+        }
+        if (!hasColor) setColorTransform({ colorTransform: 0 });
       } else {
-        setPlaneOpacity({
-          opacity: 0,
-        });
-        setPlanePos({
-          pos: [mesh.current.position.x, mesh.current.position.y - 2, z - 10],
-        });
+        if (shouldTransition) {
+          setPlaneOpacity({
+            opacity: 0,
+            config: {
+              mass: 1.5,
+              friction: 180,
+              tension: 200,
+              precision: 0.001,
+            },
+          });
+          setPlanePos({
+            pos: [mesh.current.position.x, mesh.current.position.y - 1, z],
+            config: {
+              mass: 4,
+              friction: 200,
+              tension: 100,
+              precision: 0.001,
+            },
+          });
+        }
+        if (!hasColor) {
+          await sleep(2000);
+          setColorTransform({ colorTransform: 1 });
+        }
       }
     }
 
-    shouldTransition && animate();
+    animate();
   }, [isActiveOnHome]);
 
   const handler = useCallback(
@@ -123,6 +150,11 @@ function Plane({
       mesh.current.material.uniforms["uAlpha"].value = shouldTransition
         ? opacity?.get() || 0
         : 1;
+      if (!hasColor) {
+        mesh.current.material.uniforms[
+          "uHasColor"
+        ].value = colorTransform?.get();
+      }
 
       mesh.current.material.uniforms["uTime"].value = clock.elapsedTime / 7;
     }
@@ -148,14 +180,20 @@ export function Background({ path }) {
   return (
     <StyledCanvas>
       <Plane
-        divisor={1.2}
+        divisor={1.4}
         path={path}
         shouldTransition
         shouldMove
         hasColor
         z={0}
       ></Plane>
-      <Plane divisor={1} z={-1} path={path} FBMDivider={2.96875}></Plane>
+      <Plane
+        divisor={1}
+        z={-5}
+        path={path}
+        hasColor={false}
+        FBMDivider={2.96875}
+      ></Plane>
       {/* <EffectComposer>
         <Noise opacity={0.05} />
       </EffectComposer> */}

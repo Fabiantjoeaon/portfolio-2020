@@ -19,7 +19,7 @@ export function AnimatedCharacters({
         ? text.split("").map((c, i) => ({
             id: i,
             hasDelay: i === 0,
-            trail: i * 150,
+            trail: i * 50,
             character: c,
           }))
         : [],
@@ -170,9 +170,10 @@ const TrailWord = styled(a.span)`
   will-change: transform, opacity;
   line-height: ${({ height }) => height}px;
   height: ${({ height }) => height}px;
+
   display: block;
   /* Needed because inline-block removes spaces */
   margin-right: ${({ spacing }) => spacing}px;
-  display: flex;
-  align-content: flex-start;
+  /* display: flex;
+  align-content: flex-start; */
 `;

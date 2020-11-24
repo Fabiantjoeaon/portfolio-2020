@@ -7,48 +7,53 @@ import Image from "../components/image";
 
 import SEO from "../components/seo";
 import { useRouteActive } from "../hooks";
+
+import { Inner } from "../components/styled/Inner";
 import {
   AnimatedCharacters,
   AnimatedParagraph,
   AnimatedText,
 } from "../components/AnimatedText";
 
-const Home = props => {
+const IndexPage = props => {
   const isActive = useRouteActive(props.path, "/");
 
   return (
-    <StyledIndex>
-      <SEO title="Home" />
-      <AnimatedTextWrapper>
-        <AnimatedCharacters
-          text={"Fabian"}
-          delay={2000}
-          TextComponent={a.h1}
+    <Inner>
+      <StyledIndex>
+        <SEO title="Home" />
+        <AnimatedTextWrapper>
+          <AnimatedCharacters
+            text={"Fabian"}
+            delay={2000}
+            TextComponent={a.h1}
+            toggle={isActive}
+            containerStyle={{
+              marginRight: "50px",
+            }}
+          ></AnimatedCharacters>
+          <AnimatedCharacters
+            text={"Tjoeaon"}
+            delay={2500}
+            TextComponent={a.h1}
+            toggle={isActive}
+          ></AnimatedCharacters>
+        </AnimatedTextWrapper>
+        <AnimatedParagraph
+          items={["Creative", "developer"]}
           toggle={isActive}
-          containerStyle={{
-            marginRight: "50px",
-          }}
-        ></AnimatedCharacters>
-        <AnimatedCharacters
-          text={"Tjoeaon"}
-          delay={2500}
-          TextComponent={a.h1}
-          toggle={isActive}
-        ></AnimatedCharacters>
-      </AnimatedTextWrapper>
-      <AnimatedCharacters
-        text={"CREATIVE DEVELOPER"}
-        toggle={isActive}
-        delay={3000}
-        align={"right"}
-        containerStyle={{ textAlign: "right" }}
-        TextComponent={a.h2}
-      ></AnimatedCharacters>
+          delay={3000}
+          align={"right"}
+          options={{ height: 80, spacing: 2 }}
+          containerStyle={{ textAlign: "right" }}
+          TextComponent={a.h2}
+        ></AnimatedParagraph>
 
-      <Button>
-        <Link to="/about">View my work</Link>
-      </Button>
-    </StyledIndex>
+        <Button>
+          <Link to="/work">View my work</Link>
+        </Button>
+      </StyledIndex>
+    </Inner>
   );
 };
 
@@ -72,8 +77,9 @@ const StyledIndex = styled.div`
 
   .animated-paragraph {
     align-self: flex-end;
-    p {
-      font-size: 6em;
+    h2 {
+      margin: 0px;
+      font-size: 4em;
       font-family: "Modernist Bold", sans-serif;
     }
   }
@@ -96,4 +102,4 @@ const Button = styled.button`
   }
 `;
 
-export default Home;
+export default IndexPage;

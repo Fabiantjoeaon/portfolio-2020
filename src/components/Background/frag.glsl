@@ -96,8 +96,9 @@ float smoothness = 1.0;
 float seed = 12.9898;
 
 void main() {
+
   float shade = pattern(vUv);
-  vec4 fbmColor = mix(vec4(shade) - 0.075, vec4(colormap(shade).rgb, shade), uHasColor);
+  vec4 fbmColor = mix(vec4(shade) - .1, vec4(colormap(shade).rgb, shade), uHasColor);
 
   vec4 transparent = vec4(0.0);
 

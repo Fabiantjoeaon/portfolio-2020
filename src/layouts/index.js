@@ -24,7 +24,10 @@ const Layout = ({ location, children, path }) => {
       <GlobalStyle></GlobalStyle>
       <StyledLayout>
         <Background path={path} />
-        <Inner>{children}</Inner>
+
+        <TransitionProvider location={location}>
+          <TransitionViews>{children}</TransitionViews>
+        </TransitionProvider>
       </StyledLayout>
     </ThemeProvider>
   );
@@ -41,24 +44,7 @@ const GlobalStyle = createGlobalStyle`
     color: #fff;
     overflow-y: hidden;
   }
-`;
 
-const StyledLayout = styled.div`
-  width: 100%;
-  position: relative;
-  /* min-height: 2000px; */
-  z-index: 0;
-`;
-
-const Inner = styled.div`
-  ${innerWidthSpacing};
-
-  height: 100vh;
-
-  display: flex;
-  /* align-items: center; */
-  justify-content: center;
-  flex-flow: column nowrap;
   h1 {
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -98,6 +84,13 @@ const Inner = styled.div`
     letter-spacing: 1px;
     line-height: 1.7em;
   }
+`;
+
+const StyledLayout = styled.div`
+  width: 100%;
+  position: relative;
+  /* min-height: 2000px; */
+  z-index: 0;
 `;
 
 export default Layout;

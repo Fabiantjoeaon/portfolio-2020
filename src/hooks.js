@@ -30,7 +30,7 @@ export function useWindowSize() {
 }
 
 export function useRouteActive(path, matchRoute) {
-  const [active, set] = useState(false);
+  const [active, set] = useState(path === matchRoute);
   useEffect(() => {
     set(path === matchRoute);
   }, [path]);
