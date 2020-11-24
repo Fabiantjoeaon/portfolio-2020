@@ -4,6 +4,5 @@ index 93be66f..8a6fefb 100644
 +++ b/node_modules/@react-spring/shared/package.json
 @@ -11,7 +11,7 @@
 -  "sideEffects": false,
-   "main": "cjs/index.js",
-   "module": "esm/index.js",
-   "dependencies": {
++  "sideEffects": true,
+   

@@ -4,6 +4,5 @@ index ebce2a6..80b6138 100644
 +++ b/node_modules/@react-spring/three/package.json
 @@ -22,7 +22,7 @@
 -  "sideEffects": false,
-   "main": "index.cjs.js",
-   "module": "index.js",
-   "types": "index.d.ts",
++  "sideEffects": true,
+   

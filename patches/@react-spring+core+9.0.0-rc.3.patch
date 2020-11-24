@@ -4,6 +4,5 @@ index 0cdc46b..bcc86cf 100644
 +++ b/node_modules/@react-spring/core/package.json
 @@ -22,7 +22,7 @@
 -  "sideEffects": false,
-   "main": "index.cjs.js",
-   "module": "index.js",
-   "types": "index.d.ts",
++  "sideEffects": true,
+   
