@@ -1,4 +1,7 @@
 uniform float uTime;
+uniform float uFBMDivider;
+uniform float uHasColor;
+uniform float uAlpha;
 
 varying vec2 vUv;
 varying vec3 vPos;
@@ -8,9 +11,10 @@ float colormap_red(float x) {
     if (x < 0.0) {
         return 54.0 / 255.0;
     } else if (x < 20049.0 / 82979.0) {
-        return (829.79 * x + 54.51) / 255.0;
+        // return (829.79 * x + 54.51) / 255.0;
+        return (100.79 * x + 54.51) / 255.0;
     } else {
-        return 0.8;
+        return 0.2;
     }
 }
 
@@ -72,7 +76,8 @@ float fbm( vec2 p )
     f += 0.062500*noise( p ); p = mtx*p*2.04;
     f += 0.015625*noise( p + sin(uTime) );
 
-    return f/0.96875;
+    return f/uFBMDivider;
+    // return f/2.96875;
 }
 
 float pattern( in vec2 p )
@@ -86,9 +91,25 @@ float pattern( in vec2 p )
     return fbm( p + 4.0*r );
 }
 
+float scale = 8.0;
+float smoothness = 1.0;
+float seed = 12.9898;
+
 void main() {
-  
-float shade = pattern(vUv);
-  
-  gl_FragColor = vec4(colormap(shade).rgb, shade);
+  float shade = pattern(vUv);
+  vec4 fbmColor = mix(vec4(shade) - 0.075, vec4(colormap(shade).rgb, shade), uHasColor);
+
+  vec4 transparent = vec4(0.0);
+
+  float p = mix(-smoothness, 1.0 + smoothness, uAlpha);
+  float lower = p - smoothness;
+  float higher = p + smoothness; 
+  float q = smoothstep(lower, higher, shade);
+
+  vec4 finalColor = mix(fbmColor, transparent, 0.0 + q);
+  if (finalColor.a <= 0.0) {
+    discard;  
+  }
+
+  gl_FragColor = finalColor;
 }

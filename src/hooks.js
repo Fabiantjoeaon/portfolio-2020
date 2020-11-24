@@ -28,3 +28,12 @@ export function useWindowSize() {
 
   return windowSize;
 }
+
+export function useRouteActive(path, matchRoute) {
+  const [active, set] = useState(false);
+  useEffect(() => {
+    set(path === matchRoute);
+  }, [path]);
+
+  return active;
+}

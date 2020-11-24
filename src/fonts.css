@@ -1,54 +1,45 @@
 @font-face {
-  font-family: "Inter Light";
   font-weight: 200;
-  src: local("Inter Light"),
-    local("Inter-Light"),
-    url("../static/fonts/Inter/Inter-Light.woff") format("woff"),
-    url("../static/fonts/Inter/Inter-Light.woff2") format("woff2");
+  font-family: "Modernist Light";
+  src: local("Modernist Light"),
+    local("Modernist Light"),
+    url("../static/fonts/Modernist/Modernist-light.woff") format("woff"),
+    url("../static/fonts/Modernist/Modernist-light.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "Inter Regular";
   font-weight: 400;
-  src: local("Inter Regular"),
-    local("Inter-Regular"),
-    url("../static/fonts/Inter/Inter-Regular.woff") format("woff"),
-    url("../static/fonts/Inter/Inter-Regular.woff2") format("woff2");
+  font-family: "Modernist Regular";
+  src: local("Modernist Regular"),
+    local("Modernist Regular"),
+    url("../static/fonts/Modernist/Modernist-regular.woff") format("woff"),
+    url("../static/fonts/Modernist/Modernist-regular.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "Inter Medium";
-  font-weight: 700;
-  src: local("Inter Medium"),
-    local("Inter-Medium"),
-    url("../static/fonts/Inter/Inter-Medium.woff") format("woff"),
-    url("../static/fonts/Inter/Inter-Medium.woff2") format("woff2");
+  font-weight: 200;
+  font-family: "Modernist Bold";
+  src: local("Modernist Bold"),
+    local("Modernist Bold"),
+    url("../static/fonts/Modernist/Modernist-bold.woff") format("woff"),
+    url("../static/fonts/Modernist/Modernist-bold.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "Inter Bold";
-  font-weight: 800;
-  src: local("Inter Bold"),
-    local("Inter-Bold"),
-    url("../static/fonts/Inter/Inter-Bold.woff") format("woff"),
-    url("../static/fonts/Inter/Inter-Bold.woff2") format("woff2");
+  font-weight: 400;
+  font-family: "Modernist Mono";
+  src: local("Modernist Mono"),
+    local("Modernist Mono"),
+    url("../static/fonts/Modernist/Modernist-mono.woff") format("woff"),
+    url("../static/fonts/Modernist/Modernist-mono.woff2") format("woff2");
 }
 
 @font-face {
-  font-family: "Inter Black";
-  font-weight: 900;
-  src: local("Inter Black"),
-    local("Inter-Black"),
-    url("../static/fonts/Inter/Inter-Black.woff") format("woff"),
-    url("../static/fonts/Inter/Inter-Black.woff2") format("woff2");
+  font-weight: 400;
+  font-family: "Codec Pro Regular";
+  src: local("Codec Pro Regular"),
+    local("Codec Pro Regular"),
+    url("../static/fonts/CodecPro/CodecPro-Regular.woff") format("woff"),
+    url("../static/fonts/CodecPro/CodecPro-Regular.woff2") format("woff2");
 }
 
-@font-face {
-  font-family: "Inter Black Italic";
-  font-weight: 900;
-  font-style: italic;
-  src: local("Inter Black Italic"),
-    local("Inter-BlackItalic"),
-    url("../static/fonts/Inter/Inter-BlackItalic.woff") format("woff"),
-    url("../static/fonts/Inter/Inter-BlackItalic.woff2") format("woff2");
-}

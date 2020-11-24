@@ -4,7 +4,7 @@ import { breakpoints, targetIE11AndLower } from "./media";
 
 export const innerWidthSpacing = css`
   margin: 0 auto;
-  padding: 150px 0px;
+
   ${breakpoints.xl} {
     width: ${({ theme }) => theme.maxLayoutWidth.xl};
     max-width: ${({ theme }) => theme.maxLayoutWidth.xl};

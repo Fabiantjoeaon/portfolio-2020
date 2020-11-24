@@ -4,4 +4,8 @@
  * See: https://www.gatsbyjs.com/docs/browser-apis/
  */
 
-require("./src/fonts.css")
+require("./src/fonts.css");
+
+exports.shouldUpdateScroll = () => {
+  return false;
+};
