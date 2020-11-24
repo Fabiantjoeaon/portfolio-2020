@@ -4,10 +4,9 @@ import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
 import { TransitionProvider, TransitionViews } from "gatsby-plugin-transitions";
 
-import { theme } from "./styled/theme";
-import { innerWidthSpacing } from "./styled/spacing";
-
-import { Background } from "./Background/index";
+import { theme } from "../components/styled/theme";
+import { innerWidthSpacing } from "../components/styled/spacing";
+import { Background } from "../components/Background/index";
 
 const Layout = ({ location, children, path }) => {
   // const data = useStaticQuery(graphql`

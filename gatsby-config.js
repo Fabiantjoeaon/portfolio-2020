@@ -19,6 +19,13 @@ module.exports = {
     //   resolve: `gatsby-plugin-create-client-paths`,
     //   options: { prefixes: [`/*`] },
     // },
+    // {
+    //   resolve: "gatsby-plugin-layout",
+    //   options: {
+    //     component: require("./src/layouts/index.js"),
+    //   },
+    // },
+    "gatsby-plugin-layout",
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
