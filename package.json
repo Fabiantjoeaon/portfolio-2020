@@ -21,6 +21,7 @@
     "gatsby-transformer-sharp": "^2.6.0",
     "glslify": "^7.1.1",
     "glslify-loader": "^2.0.0",
+    "npx": "^10.2.2",
     "prop-types": "^15.7.2",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
@@ -29,8 +30,9 @@
     "react-spring": "^8.0.27",
     "react-three-fiber": "^5.3.3",
     "react-use-gesture": "^8.0.1",
+    "replace-in-file": "^6.1.0",
     "styled-components": "^5.2.1",
-    "three": "0.112.0"
+    "three": "^0.122.0"
   },
   "devDependencies": {
     "prettier": "2.1.2"
@@ -46,7 +48,8 @@
     "start": "npm run develop",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1"
+    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\" && exit 1",
+    "postinstall": "patch-package"
   },
   "repository": {
     "type": "git",
