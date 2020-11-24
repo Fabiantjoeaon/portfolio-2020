@@ -35,7 +35,7 @@ export default function ProjectPage({
   return (
     <Inner>
       <StyledWork>
-        <h2>My work</h2>
+        <h2>Selected work</h2>
         <Projects>
           {transition.map(
             ({ item, key, props: { opacity, y } }) =>

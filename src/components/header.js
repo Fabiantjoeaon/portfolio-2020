@@ -15,7 +15,7 @@ const Header = ({ siteTitle }) => (
         </div>
       </Link>
       <div className="header__pages">
-        <Link to="/projects">My work</Link>
+        <Link to="/projects">Selected work</Link>
         <Link to="/about">About me</Link>
       </div>
 
