@@ -4,6 +4,7 @@ import PropTypes from "prop-types";
 import { useStaticQuery, graphql } from "gatsby";
 import { TransitionProvider, TransitionViews } from "gatsby-plugin-transitions";
 
+import Header from "../components/header";
 import { theme } from "../components/styled/theme";
 import { innerWidthSpacing } from "../components/styled/spacing";
 import { Background } from "../components/Background/index";
@@ -23,6 +24,7 @@ const Layout = ({ location, children, path }) => {
     <ThemeProvider theme={theme}>
       <GlobalStyle></GlobalStyle>
       <StyledLayout>
+        <Header></Header>
         <Background path={path} />
 
         <TransitionProvider location={location}>
@@ -38,6 +40,10 @@ Layout.propTypes = {
 };
 
 const GlobalStyle = createGlobalStyle`
+  html, body{
+    margin: 0;
+    padding: 0;
+  }
   body {
     background-color: #1F1F1F;
     font-family: "Modernist Regular", sans-serif;
@@ -46,35 +52,21 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h1 {
-    text-transform: uppercase;
-    letter-spacing: 1px;
+    /* text-transform: uppercase; */
+    letter-spacing: 0px;
     font-weight: 900;
-    margin: 0px 0px 180px;
+    
     font-family: "Modernist Bold", sans-serif;
     font-size: 6em;
 
-    /* text-align: center; */
-    -webkit-text-fill-color: rgba(
-      0,
-      0,
-      0,
-      0
-    ); /* Will override color (regardless of order) */
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: #fff;
+    
   }
 
   h2 {
-    /* -webkit-text-fill-color: rgba(
-      0,
-      0,
-      0,
-      0
-    ); /* Will override color (regardless of order) */
-    -webkit-text-stroke-width: 1px;
-    -webkit-text-stroke-color: #fff; */
+    
+    
     font-family: "Modernist Bold", sans-serif;
-    align-self: flex-end;
+    
     font-size: 6em;
   }
 

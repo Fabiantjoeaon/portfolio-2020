@@ -24,34 +24,45 @@ const IndexPage = props => {
         <SEO title="Home" />
         <AnimatedTextWrapper>
           <AnimatedCharacters
-            text={"Fabian"}
+            text={"Form"}
             delay={2000}
             TextComponent={a.h1}
             toggle={isActive}
+            options={{ height: 100, spacing: 0, align: "left" }}
             containerStyle={{
               marginRight: "50px",
             }}
           ></AnimatedCharacters>
           <AnimatedCharacters
-            text={"Tjoeaon"}
+            text={"follows"}
             delay={2500}
+            TextComponent={a.h1}
+            toggle={isActive}
+            options={{ height: 100, spacing: 0, align: "left" }}
+            containerStyle={{
+              marginRight: "50px",
+            }}
+          ></AnimatedCharacters>
+          <AnimatedCharacters
+            text={"function"}
+            delay={3000}
+            options={{ height: 100, spacing: 0, align: "left" }}
             TextComponent={a.h1}
             toggle={isActive}
           ></AnimatedCharacters>
         </AnimatedTextWrapper>
         <AnimatedParagraph
-          items={["Creative", "developer"]}
+          items={["Creative developer", "from Rotterdam"]}
           toggle={isActive}
-          delay={3000}
-          align={"right"}
+          delay={3500}
           options={{ height: 80, spacing: 2 }}
           containerStyle={{ textAlign: "right" }}
           TextComponent={a.h2}
         ></AnimatedParagraph>
 
-        <Button>
-          <Link to="/work">View my work</Link>
-        </Button>
+        {/* <Button>
+          <Link to="/projects">View my work</Link>
+        </Button> */}
       </StyledIndex>
     </Inner>
   );
@@ -64,6 +75,15 @@ const AnimatedTextWrapper = styled.div`
 
   width: 100%;
 
+  h1 {
+    font-family: "Modernist Bold", sans-serif;
+    /* text-transform: uppercase; */
+    margin: 0px 0px 180px;
+    /* -webkit-text-fill-color: rgba(0, 0, 0, 0);
+
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #fff; */
+  }
   .name-first {
     margin-right: 40px;
   }
@@ -78,9 +98,10 @@ const StyledIndex = styled.div`
   .animated-paragraph {
     align-self: flex-end;
     h2 {
+      letter-spacing: 1px;
       margin: 0px;
       font-size: 4em;
-      font-family: "Modernist Bold", sans-serif;
+      font-family: "Modernist Regular", sans-serif;
     }
   }
 `;

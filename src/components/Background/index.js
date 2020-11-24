@@ -57,7 +57,6 @@ function Plane({
   );
 
   useEffect(() => {
-    console.log("HERE", isActiveOnHome);
     async function animate() {
       if (isActiveOnHome) {
         if (shouldTransition) {
@@ -76,15 +75,19 @@ function Plane({
             },
           });
         }
-        if (!hasColor) setColorTransform({ colorTransform: 0 });
+        if (!hasColor)
+          setColorTransform({
+            colorTransform: 0,
+            config: config.molasses,
+          });
       } else {
         if (shouldTransition) {
           setPlaneOpacity({
             opacity: 0,
             config: {
-              mass: 1.5,
-              friction: 180,
-              tension: 200,
+              mass: 4,
+              friction: 100,
+              tension: 180,
               precision: 0.001,
             },
           });
@@ -99,8 +102,16 @@ function Plane({
           });
         }
         if (!hasColor) {
-          await sleep(2000);
-          setColorTransform({ colorTransform: 1 });
+          await sleep(1500);
+          setColorTransform({
+            colorTransform: 1,
+            config: {
+              mass: 2,
+              friction: 150,
+              tension: 180,
+              precision: 0.001,
+            },
+          });
         }
       }
     }
