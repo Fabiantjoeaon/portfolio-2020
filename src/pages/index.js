@@ -8,24 +8,25 @@ import Image from "../components/image";
 import SEO from "../components/seo";
 import { useRouteActive } from "../hooks";
 
-import { Inner } from "../components/styled/Inner";
+import { FullHeightInner } from "../components/styled/Inner";
+import { theme } from "../components/styled/theme";
 import {
   AnimatedCharacters,
   AnimatedParagraph,
   AnimatedText,
 } from "../components/AnimatedText";
 
-const IndexPage = props => {
-  const isActive = useRouteActive(props.path, "/");
+const IndexPage = ({ path, loadingDone }) => {
+  const isActive = useRouteActive(path, "/");
 
   return (
-    <Inner>
+    <FullHeightInner>
       <StyledIndex>
         <SEO title="Home" />
         <AnimatedTextWrapper>
           <AnimatedCharacters
             text={"Form"}
-            delay={2000}
+            delay={loadingDone ? 2000 : theme.initialLoadingTime + 2000 + 2000}
             TextComponent={a.h1}
             toggle={isActive}
             options={{ height: 100, spacing: 0, align: "left" }}
@@ -35,7 +36,7 @@ const IndexPage = props => {
           ></AnimatedCharacters>
           <AnimatedCharacters
             text={"follows"}
-            delay={2500}
+            delay={loadingDone ? 2500 : theme.initialLoadingTime + 2500 + 2000}
             TextComponent={a.h1}
             toggle={isActive}
             options={{ height: 100, spacing: 0, align: "left" }}
@@ -45,7 +46,7 @@ const IndexPage = props => {
           ></AnimatedCharacters>
           <AnimatedCharacters
             text={"function"}
-            delay={3000}
+            delay={loadingDone ? 3000 : theme.initialLoadingTime + 3000 + 2000}
             options={{ height: 100, spacing: 0, align: "left" }}
             TextComponent={a.h1}
             toggle={isActive}
@@ -54,7 +55,7 @@ const IndexPage = props => {
         <AnimatedParagraph
           items={["Creative developer", "from Rotterdam"]}
           toggle={isActive}
-          delay={3500}
+          delay={loadingDone ? 3500 : theme.initialLoadingTime + 3500 + 2000}
           options={{ height: 80, spacing: 2 }}
           containerStyle={{ textAlign: "right" }}
           TextComponent={a.h2}
@@ -64,7 +65,7 @@ const IndexPage = props => {
           <Link to="/projects">View my work</Link>
         </Button> */}
       </StyledIndex>
-    </Inner>
+    </FullHeightInner>
   );
 };
 

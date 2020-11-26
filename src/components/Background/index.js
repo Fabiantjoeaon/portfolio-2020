@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useRef, useMemo } from "react";
 import styled from "styled-components";
 import glslify from "glslify";
 import { Canvas, useThree, useFrame } from "react-three-fiber";
+import { theme } from "../styled/theme";
 import { useGesture } from "react-use-gesture";
 import { useWindowSize, useRouteActive } from "../../hooks";
 
@@ -19,6 +20,7 @@ function Plane({
   hasColor = false,
   FBMDivider = 0.86875,
   path,
+  loadingDone = false,
 }) {
   const { camera } = useThree();
   const { width: windowWidth, height: windowHeight } = useWindowSize();
@@ -60,7 +62,7 @@ function Plane({
     async function animate() {
       if (isActiveOnHome) {
         if (shouldTransition) {
-          await sleep(600);
+          await sleep(loadingDone ? 600 : theme.initialLoadingTime + 2000);
           setPlanePos({
             pos: [0, 0, z],
           });
@@ -153,7 +155,7 @@ function Plane({
       mesh.current.geometry.uvsNeedUpdate = true;
     }
 
-    return [planeWidth / divisor, planeHeight / divisor];
+    return [planeWidth / divisor.width, planeHeight / divisor.height];
   }, [windowWidth, windowHeight, defaultCameraZ]);
 
   useFrame(({ clock }) => {
@@ -187,19 +189,20 @@ function Plane({
   );
 }
 
-export function Background({ path }) {
+export function Background({ path, loadingDone }) {
   return (
     <StyledCanvas>
       <Plane
-        divisor={1.4}
+        divisor={{ width: 1.32, height: 1.4 }}
         path={path}
         shouldTransition
         shouldMove
         hasColor
+        loadingDone={loadingDone}
         z={0}
       ></Plane>
       <Plane
-        divisor={1}
+        divisor={{ width: 1, height: 1 }}
         z={-5}
         path={path}
         hasColor={false}

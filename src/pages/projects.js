@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { graphql, Link } from "gatsby";
 import styled from "styled-components";
 import { useTransition, animated as a } from "react-spring";
-import { Inner } from "../components/styled/Inner";
+import { FullHeightInner } from "../components/styled/Inner";
 
 import { useRouteActive } from "../hooks";
 import { sleep } from "../utils";
@@ -33,7 +33,7 @@ export default function ProjectPage({
     trail: 180,
   });
   return (
-    <Inner>
+    <FullHeightInner>
       <StyledWork>
         <h2>Selected work</h2>
         <Projects>
@@ -57,7 +57,7 @@ export default function ProjectPage({
           )}
         </Projects>
       </StyledWork>
-    </Inner>
+    </FullHeightInner>
   );
 }
 
@@ -84,7 +84,7 @@ const Projects = styled.ul`
     list-style-type: none;
     text-align: right;
     font-size: 3em;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 
     a {
       color: #fff;

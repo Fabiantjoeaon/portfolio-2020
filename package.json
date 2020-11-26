@@ -16,6 +16,7 @@
     "gatsby-plugin-sharp": "^2.8.0",
     "gatsby-plugin-styled-components": "^3.5.0",
     "gatsby-plugin-transitions": "^2.1.7",
+    "gatsby-remark-images": "^3.6.0",
     "gatsby-source-filesystem": "^2.6.1",
     "gatsby-transformer-remark": "^2.11.0",
     "gatsby-transformer-sharp": "^2.6.0",
@@ -43,7 +44,7 @@
   "license": "0BSD",
   "scripts": {
     "build": "node postinstall.js && gatsby build",
-    "develop": "gatsby develop",
+    "develop": "gatsby develop -H 0.0.0.0",
     "format": "prettier --write \"**/*.{js,jsx,ts,tsx,json,md}\"",
     "start": "npm run develop",
     "serve": "gatsby serve",

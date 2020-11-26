@@ -3,7 +3,7 @@ import { navigate } from "@reach/router";
 
 export default () => {
   useEffect(() => {
-    navigate("/your-redirect/");
+    navigate("/");
   }, []);
   return null;
 };
