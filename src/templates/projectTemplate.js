@@ -108,7 +108,7 @@ const BlogTemplateInner = styled.div`
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      padding-bottom: 40px;
+      padding-bottom: 50px;
       p {
         margin: 0px;
       }

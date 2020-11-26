@@ -3,6 +3,7 @@ import { useTransition, animated as a } from "react-spring";
 import styled from "styled-components";
 
 import { sleep } from "../utils";
+// https://stackoverflow.com/questions/60995685/react-spring-how-to-animate-letters-of-an-array-correctly
 
 export function AnimatedCharacters({
   text,
