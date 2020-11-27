@@ -25,31 +25,12 @@ const IndexPage = ({ path, loadingDone }) => {
         <SEO title="Home" />
         <AnimatedTextWrapper>
           <AnimatedCharacters
-            text={"Form"}
+            text={"Form follows function"}
             delay={loadingDone ? 2000 : theme.initialLoadingTime + 2000 + 2000}
             TextComponent={a.h1}
             toggle={isActive}
-            options={{ height: 100, spacing: 0, align: "left" }}
-            containerStyle={{
-              marginRight: "50px",
-            }}
-          ></AnimatedCharacters>
-          <AnimatedCharacters
-            text={"follows"}
-            delay={loadingDone ? 2500 : theme.initialLoadingTime + 2500 + 2000}
-            TextComponent={a.h1}
-            toggle={isActive}
-            options={{ height: 100, spacing: 0, align: "left" }}
-            containerStyle={{
-              marginRight: "50px",
-            }}
-          ></AnimatedCharacters>
-          <AnimatedCharacters
-            text={"function"}
-            delay={loadingDone ? 3000 : theme.initialLoadingTime + 3000 + 2000}
-            options={{ height: 100, spacing: 0, align: "left" }}
-            TextComponent={a.h1}
-            toggle={isActive}
+            options={{ align: "left" }}
+            wordDelay={1000}
           ></AnimatedCharacters>
         </AnimatedTextWrapper>
         <AnimatedParagraph
@@ -70,9 +51,9 @@ const IndexPage = ({ path, loadingDone }) => {
 };
 
 const AnimatedTextWrapper = styled.div`
-  display: flex;
+  /* display: flex;
   /* justify-content: space-between; */
-  align-self: flex-start;
+  /* align-self: flex-start;  */
 
   width: 100%;
 
@@ -101,8 +82,9 @@ const StyledIndex = styled.div`
     h2 {
       letter-spacing: 1px;
       margin: 0px;
+      font-weight: 100;
       font-size: 4em;
-      font-family: "Modernist Regular", sans-serif;
+      font-family: "Castoro Italic", sans-serif;
     }
   }
 `;

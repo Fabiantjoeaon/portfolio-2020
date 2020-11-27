@@ -21,7 +21,7 @@ const settings = {
     mobile: "80px",
   },
 
-  initialLoadingTime: 500,
+  initialLoadingTime: 6000,
 
   easing1: "cubic-bezier(0.666, 0, 0.237, 1)",
 };

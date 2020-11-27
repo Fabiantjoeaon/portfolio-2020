@@ -6,6 +6,7 @@ import { FullHeightInner } from "../components/styled/Inner";
 
 import { useRouteActive } from "../hooks";
 import { sleep } from "../utils";
+import { AnimatedCharacters } from "../components/AnimatedText";
 
 // https://www.clockstrikestwelve.com/
 // mix-blend-mode: difference;
@@ -23,19 +24,28 @@ export default function ProjectPage({
       y: 50,
     },
     enter: () => async next => {
-      sleep(2000);
+      await sleep(1000);
       next({ opacity: 1, y: 0 });
     },
     leave: {
       opacity: 0,
       y: 50,
     },
-    trail: 180,
+    trail: 100,
   });
   return (
     <FullHeightInner>
       <StyledWork>
-        <h2>Selected work</h2>
+        <div>
+          <AnimatedCharacters
+            text={"Selected work"}
+            animateX
+            animateY={false}
+            toggle={isActive}
+            TextComponent={a.h1}
+            delay={500}
+          ></AnimatedCharacters>
+        </div>
         <Projects>
           {transition.map(
             ({ item, key, props: { opacity, y } }) =>
@@ -45,7 +55,7 @@ export default function ProjectPage({
                   style={{
                     opacity,
                     transform: y.interpolate(
-                      yVal => `translate3d(0px, ${yVal}px, 0px)`
+                      yVal => `translate3d(${yVal}px, 0px, 0px)`
                     ),
                   }}
                 >
@@ -83,13 +93,14 @@ const Projects = styled.ul`
   li {
     list-style-type: none;
     text-align: right;
+
     font-size: 3em;
     margin-bottom: 30px;
 
     a {
       color: #fff;
       text-decoration: none;
-      font-family: "Modernist"
+      font-family: "Castoro Italic", serif;
       &::visited {
         color: #fff;
       }

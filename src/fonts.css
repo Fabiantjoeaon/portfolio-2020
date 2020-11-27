@@ -36,10 +36,22 @@
 
 @font-face {
   font-weight: 400;
-  font-family: "Codec Pro Regular";
-  src: local("Codec Pro Regular"),
-    local("Codec Pro Regular"),
-    url("../static/fonts/CodecPro/CodecPro-Regular.woff") format("woff"),
-    url("../static/fonts/CodecPro/CodecPro-Regular.woff2") format("woff2");
+  font-family: "Castoro Regular";
+  src: local("Castoro Regular"),
+    local("Castoro Regular"),
+    url("../static/fonts/Castoro/Castoro-Regular.woff") format("woff"),
+    url("../static/fonts/Castoro/Castoro-Regular.woff2") format("woff2");
+    
+}
+
+@font-face {
+  font-weight: 400;
+  font-family: "Castoro Italic";
+  font-style: italic;
+  src: local("Castoro Italic"),
+    local("Castoro Italic"),
+    url("../static/fonts/Castoro/Castoro-Italic.woff") format("woff"),
+    url("../static/fonts/Castoro/Castoro-Italic.woff2") format("woff2");
+
 }
 

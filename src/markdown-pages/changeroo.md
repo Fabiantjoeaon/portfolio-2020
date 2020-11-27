@@ -39,12 +39,12 @@ The portal was my full responsibility, so I had to make most programming design 
 </div>
 <div class="content__right">
 
-Some of the functionalities I had to build include:
+I was responsible for:
 
-- Communication and passing on user roles to the Web Interface through <a href="https://firebase.google.com/">Google Firebase</a>.
-- Registration and authentication (both local and with JWT for use with Firebase).
-- Managing stakeholders, organisations, and the data that is needed to create a Theory of Change.
-- Build the ToC Academy, a page where users could read in on how to use the application, and important papers regarding change. This was achieved using an external Wordpress website as a JSON API, pulling and converting this data in through my back-end, and then caching it with Redis.
+- \- Communication and passing on user roles to the Web Interface through <a href="https://firebase.google.com/">Google Firebase</a>.
+- \- Registration and authentication (both local and with JWT for use with Firebase).
+- \- Managing stakeholders, organisations, and the data that is needed to create a Theory of Change.
+- \- Build the ToC Academy, a page where users could read in on how to use the application, and important papers regarding change. This was achieved using an external Wordpress website as a JSON API, pulling and converting this data in through my back-end, and then caching it with Redis.
 
 </div>
 </div>

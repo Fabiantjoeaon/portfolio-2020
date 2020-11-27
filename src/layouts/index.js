@@ -37,9 +37,7 @@ const Layout = ({ location, children, path }) => {
       opacity: 0,
       transform: "translate3d(0,0px,0)",
 
-      onRest: () => {
-        console.log("Hello, World!");
-      },
+      onRest: () => {},
     },
     usual: {
       opacity: 1,
@@ -59,7 +57,7 @@ const Layout = ({ location, children, path }) => {
   };
 
   useEffect(() => {
-    // navigate("/");
+    navigate("/");
     setTimeout(() => {
       initializeRef.current = true;
     }, theme.initialLoadingTime);
@@ -97,7 +95,7 @@ const Layout = ({ location, children, path }) => {
       <Intro loadingDone={loadingDone}>
         <div className="loader">
           <AnimatedCharacters
-            TextComponent={a.span}
+            TextComponent={a.h1}
             text={"Loading"}
             toggle={!loadingDone}
             options={{
@@ -124,7 +122,6 @@ const Layout = ({ location, children, path }) => {
         <StyledLayout>
           <Header loadingDone={loadingDone}></Header>
           <Background loadingDone={loadingDone} path={path} />
-
           <TransitionProvider {...transitionProps}>
             <TransitionViews>
               {cloneElement(children, {
@@ -181,6 +178,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     overflow: hidden;
+    -webkit-font-smoothing: antialiased;
   }
   body {
     background-color: #1F1F1F;
@@ -197,7 +195,6 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Modernist Bold", sans-serif;
     font-size: 6em;
 
-    
   }
 
   h2 {
@@ -239,10 +236,12 @@ const Intro = styled.div`
   transition: opacity 0.3s 1s ${({ theme }) => theme.easing1};
   pointer-events: none;
 
-  span {
-    color: #242424;
-    font-size: 5em;
-    font-family: "Modernist Bold", sans-serif;
+  .loader {
+    h1 {
+      color: #242424;
+      font-size: 19em !important;
+      font-family: "Modernist Bold", sans-serif;
+    }
   }
 `;
 

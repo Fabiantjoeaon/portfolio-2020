@@ -1,4 +1,4 @@
-import { useCallback, useState, useEffect } from "react";
+import { useRef, useCallback, useState, useEffect } from "react";
 
 export function useWindowSize() {
   const isBrowser = typeof window !== "undefined";
@@ -29,11 +29,21 @@ export function useWindowSize() {
   return windowSize;
 }
 
-export function useRouteActive(path, matchRoute) {
+export function useRouteActive(path, matchRoute, search = false) {
   const [active, set] = useState(path === matchRoute);
   useEffect(() => {
-    set(path === matchRoute);
+    set(search ? path.includes(matchRoute) : path === matchRoute);
   }, [path]);
 
   return active;
+}
+
+export function usePrevious(value) {
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current = value;
+  }, [value]);
+
+  return ref.current;
 }

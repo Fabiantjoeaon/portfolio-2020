@@ -1,14 +1,16 @@
 import React, { useMemo, useEffect, useRef } from "react";
-import { useTransition, animated as a } from "react-spring";
+import { useTransition, animated as a, interpolate } from "react-spring";
 import styled from "styled-components";
 
 import { sleep } from "../utils";
-// https://stackoverflow.com/questions/60995685/react-spring-how-to-animate-letters-of-an-array-correctly
 
 export function AnimatedCharacters({
   text,
   toggle,
+  animateX = false,
+  animateY = true,
   delay = 800,
+  wordDelay,
   options = { height: 80, spacing: 4, align: "left" },
   springConfig = { mass: 5, tension: 2000, friction: 200 },
   TextComponent,
@@ -17,64 +19,70 @@ export function AnimatedCharacters({
   const items = useMemo(
     () =>
       toggle
-        ? text.split("").map((c, i) => ({
-            id: i,
-            hasDelay: i === 0,
-            trail: i * 50,
-            character: c,
-          }))
+        ? text.split("").map((c, i) => {
+            return {
+              id: i,
+              hasDelay: i === 0,
+              trail: i * 50,
+              character: c,
+            };
+          })
         : [],
     [toggle]
   );
 
   const transition = useTransition(items, item => item.id, {
     from: {
-      height: 0,
       opacity: 0,
-      transformY: 20,
+      transformX: animateX ? -20 : 0,
+      transformY: animateY ? 20 : 0,
     },
     enter: item => async next => {
-      await sleep(delay + item.trail);
-      next({ height: options.height, opacity: 1, transformY: 0 });
+      const possibleWordDelay =
+        item.character === " " && wordDelay ? wordDelay : 0;
+      await sleep(delay + item.trail + possibleWordDelay);
+      // if (item.character === " " && wordDelay) await sleep();
+      next({ opacity: 1, transformY: 0, transformX: 0 });
     },
-    leave: {
-      height: 0,
-      opacity: 0,
-      transformY: 20,
+    leave: item => async next => {
+      await sleep(item.trail);
+      next({
+        opacity: 0,
+        transformX: animateX ? -20 : 0,
+        transformY: animateY ? 20 : 0,
+      });
     },
     // trail: 200,
     config: springConfig,
   });
 
   return (
-    <div
+    <CharacterWrapper
       className="animated-title"
       style={{ ...containerStyle, textAlign: options.align }}
     >
       {transition.map(
-        ({ item, key, props: { transformY, height, opacity } }) => {
+        ({ item, key, props: { transformX, transformY, opacity } }) => {
           return (
             item && (
-              <TrailCharacter
+              <TextComponent
                 key={key}
+                className=""
                 style={{
-                  transform: transformY.interpolate(
-                    y => `translate3d(0px, ${y}px, 0px)`
+                  transform: interpolate(
+                    [transformX, transformY],
+                    (x, y) => `translate3d(${x}px, ${y}px, 0px)`
                   ),
                   opacity,
                 }}
-                spacing={options.spacing}
-                height={options.height}
               >
-                <TextComponent style={{ height }}>
-                  {item.character}
-                </TextComponent>
-              </TrailCharacter>
+                {item.character === " " ? <span>&nbsp;</span> : item.character}
+              </TextComponent>
             )
           );
         }
       )}
-    </div>
+    </CharacterWrapper>
   );
 }
 
@@ -154,15 +162,11 @@ export function AnimatedParagraph({
   );
 }
 
-const TrailCharacter = styled(a.span)`
-  position: relative;
-  overflow: hidden;
-  will-change: transform, opacity;
-  line-height: ${({ height }) => height}px;
-  height: ${({ height }) => height}px;
-  display: inline-block;
-  /* Needed because inline-block removes spaces */
-  margin-right: ${({ spacing }) => spacing}px;
+const CharacterWrapper = styled.div`
+  display: inline;
+  * {
+    display: inline-block;
+  }
 `;
 
 const TrailWord = styled(a.span)`

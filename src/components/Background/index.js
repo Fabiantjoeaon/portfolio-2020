@@ -1,10 +1,16 @@
-import React, { useCallback, useEffect, useRef, useMemo } from "react";
+import React, {
+  useState,
+  useCallback,
+  useEffect,
+  useRef,
+  useMemo,
+} from "react";
 import styled from "styled-components";
 import glslify from "glslify";
 import { Canvas, useThree, useFrame } from "react-three-fiber";
 import { theme } from "../styled/theme";
 import { useGesture } from "react-use-gesture";
-import { useWindowSize, useRouteActive } from "../../hooks";
+import { useWindowSize, useRouteActive, usePrevious } from "../../hooks";
 
 import { useSpring, animated as a, config } from "@react-spring/three";
 import { clamp, sleep } from "../../utils";
@@ -23,9 +29,22 @@ function Plane({
   loadingDone = false,
 }) {
   const { camera } = useThree();
+  const [scrolled, setScrolled] = useState(false);
   const { width: windowWidth, height: windowHeight } = useWindowSize();
   const defaultCameraZ = camera.position.z;
   const mesh = useRef();
+  const prevScrolled = usePrevious(scrolled);
+
+  useEffect(() => {
+    function handleScroll() {
+      //TODO: Optimize!
+      const shouldScroll = document.documentElement.scrollTop > 150;
+      setScrolled(shouldScroll);
+    }
+    if (!shouldTransition) window.addEventListener("scroll", handleScroll);
+
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const isActiveOnHome = useRouteActive(path, "/");
 
@@ -59,6 +78,7 @@ function Plane({
   );
 
   useEffect(() => {
+    // TODO: Make this more manage-able
     async function animate() {
       if (isActiveOnHome) {
         if (shouldTransition) {
@@ -104,9 +124,10 @@ function Plane({
           });
         }
         if (!hasColor) {
-          await sleep(1500);
+          //TODO: Remove delay!
+          await sleep(prevScrolled === scrolled ? 1500 : 0);
           setColorTransform({
-            colorTransform: 1,
+            colorTransform: scrolled ? 0 : 1,
             config: {
               mass: 2,
               friction: 150,
@@ -119,7 +140,7 @@ function Plane({
     }
 
     animate();
-  }, [isActiveOnHome]);
+  }, [isActiveOnHome, scrolled]);
 
   const handler = useCallback(
     ({ xy: [cx, cy], previous: [px, py], memo = [0, 0] }) => {
