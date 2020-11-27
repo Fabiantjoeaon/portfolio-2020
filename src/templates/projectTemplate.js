@@ -71,7 +71,7 @@ export default function Template({ data, path }) {
       opacity: 0,
     },
     enter: () => async next => {
-      await sleep(1200);
+      await sleep(1800);
       next({ y: 0, opacity: 1 });
     },
     leave: {
@@ -86,7 +86,7 @@ export default function Template({ data, path }) {
       opacity: 0,
     },
     enter: () => async next => {
-      await sleep(1500);
+      await sleep(2100);
       next({ y: 0, opacity: 1 });
     },
     leave: {

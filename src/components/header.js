@@ -9,7 +9,7 @@ import { sleep } from "../utils";
 import { outerWidthSpacing } from "./styled/spacing";
 import { theme } from "./styled/theme";
 
-const Header = ({ siteTitle, loadingDone }) => {
+const Header = ({ siteTitle, loadingDone, path }) => {
   const transition = useTransition(loadingDone, null, {
     from: {
       opacity: 0,
@@ -44,8 +44,12 @@ const Header = ({ siteTitle, loadingDone }) => {
               </div>
             </Link>
             <div className="header__pages">
-              <Link to="/projects">Selected work</Link>
-              <Link to="/about">About me</Link>
+              <Link active={path === "/projects/"} to="/projects">
+                Selected work
+              </Link>
+              <Link active={path === "/about/"} to="/about">
+                About me
+              </Link>
             </div>
 
             <div className="header__socials">

@@ -95,7 +95,7 @@ const Projects = styled.ul`
     text-align: right;
 
     font-size: 3em;
-    margin-bottom: 30px;
+    margin-bottom: 35px;
 
     a {
       color: #fff;
@@ -103,6 +103,41 @@ const Projects = styled.ul`
       font-family: "Castoro Italic", serif;
       &::visited {
         color: #fff;
+      }
+    }
+
+    a {
+      position: relative;
+
+      &:hover {
+        &::before {
+          /* transform-origin: right; */
+          transform: scaleX(1);
+          opacity: 1;
+          /* transform-origin: 100% 0%; */
+        }
+      }
+
+      &::before,
+      &::after {
+        content: "";
+        position: absolute;
+        display: block;
+
+        left: 0px;
+        width: 100%;
+        height: 1px;
+        background-color: #fff;
+        transform: scaleX(0);
+        transition: all 0.5s ease-out;
+        opacity: 0;
+        /* transform-origin: left; */
+      }
+
+      &::before {
+        /* transform-origin: left; */
+        bottom: -10px;
+        transform-origin: 0% 0%;
       }
     }
   }

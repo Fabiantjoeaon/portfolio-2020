@@ -10,14 +10,18 @@ import { useRouteActive } from "../hooks";
 
 import { FullHeightInner } from "../components/styled/Inner";
 import { theme } from "../components/styled/theme";
+import { breakpoints } from "../components/styled/media";
 import {
   AnimatedCharacters,
   AnimatedParagraph,
   AnimatedText,
 } from "../components/AnimatedText";
+import { useWindowSize, useFluidValue } from "../hooks";
 
 const IndexPage = ({ path, loadingDone }) => {
   const isActive = useRouteActive(path, "/");
+  const { width, height } = useWindowSize();
+  const bottomTextHeight = useFluidValue(width, 40, 80);
 
   return (
     <FullHeightInner>
@@ -37,7 +41,7 @@ const IndexPage = ({ path, loadingDone }) => {
           items={["Creative developer", "from Rotterdam"]}
           toggle={isActive}
           delay={loadingDone ? 3500 : theme.initialLoadingTime + 3500 + 2000}
-          options={{ height: 80, spacing: 2 }}
+          options={{ height: bottomTextHeight, spacing: 2 }}
           containerStyle={{ textAlign: "right" }}
           TextComponent={a.h2}
         ></AnimatedParagraph>
@@ -60,7 +64,8 @@ const AnimatedTextWrapper = styled.div`
   h1 {
     font-family: "Modernist Bold", sans-serif;
     /* text-transform: uppercase; */
-    margin: 0px 0px 180px;
+    /* margin: 0px 0px 180px; */
+    margin: 0px;
     /* -webkit-text-fill-color: rgba(0, 0, 0, 0);
 
     -webkit-text-stroke-width: 2px;
@@ -76,6 +81,11 @@ const StyledIndex = styled.div`
   height: 65%;
   flex-flow: column nowrap;
   justify-content: space-between;
+
+  ${breakpoints.mdPlus} {
+    width: 75%;
+    margin: 0 auto;
+  }
 
   .animated-paragraph {
     align-self: flex-end;

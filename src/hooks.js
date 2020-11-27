@@ -1,4 +1,7 @@
-import { useRef, useCallback, useState, useEffect } from "react";
+import { useRef, useMemo, useCallback, useState, useEffect } from "react";
+import { clamp } from "./utils";
+import { theme } from "./components/styled/theme";
+import { widthMap } from "./components/styled/media";
 
 export function useWindowSize() {
   const isBrowser = typeof window !== "undefined";
@@ -46,4 +49,25 @@ export function usePrevious(value) {
   }, [value]);
 
   return ref.current;
+}
+
+export function useFluidValue(
+  windowWidth,
+  minValue,
+  maxValue,
+  minScreenWidth = widthMap.sm,
+  maxScreenWidth = widthMap.lg
+) {
+  return useMemo(() => {
+    const valueDiff = maxValue - minValue;
+    const screenWidthDiff = maxScreenWidth - minScreenWidth;
+    // calc( (${minFontSize} + ${stripUnit(diffBetweenFontSizes)} * ( 100vw - ${minScreenSize} ) / ${diffBetweenScreenSizes} ));
+    // calc( (1.2961572031209998rem + 1.8611773151999997 * ( 100vw - 37.5rem ) / 112.5 ))
+
+    return clamp(
+      minValue + valueDiff * ((windowWidth - minScreenWidth) / screenWidthDiff),
+      minValue,
+      maxValue
+    );
+  }, [windowWidth]);
 }

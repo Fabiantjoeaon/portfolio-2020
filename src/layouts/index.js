@@ -12,9 +12,10 @@ import Header from "../components/header";
 
 import { theme } from "../components/styled/theme";
 import { Background } from "../components/Background/index";
-// import { Intro } from "../components/Intro";
+import { breakpoints } from "../components/styled/media";
 import { EffectComposer, Noise } from "react-postprocessing";
 import { sleep } from "../utils";
+import { useFluidValue } from "../hooks";
 
 const Layout = ({ location, children, path }) => {
   // const data = useStaticQuery(graphql`
@@ -98,10 +99,6 @@ const Layout = ({ location, children, path }) => {
             TextComponent={a.h1}
             text={"Loading"}
             toggle={!loadingDone}
-            options={{
-              height: 450,
-              spacing: 2,
-            }}
             delay={400}
           ></AnimatedCharacters>
           {lineTrans.map(
@@ -180,6 +177,19 @@ const GlobalStyle = createGlobalStyle`
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
   }
+
+  html {
+    font-size: 16px;
+    ${breakpoints.mdPlus} {
+      font-size: 14px;
+    }
+    ${breakpoints.md} {
+      font-size: 12px;
+    }
+    ${breakpoints.sm} {
+      font-size: 10px;
+    }
+  }
   body {
     background-color: #1F1F1F;
     font-family: "Modernist Regular", sans-serif;
@@ -198,10 +208,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   h2 {
-    
-    
     font-family: "Modernist Bold", sans-serif;
-    
     font-size: 6em;
   }
 
@@ -242,13 +249,17 @@ const Intro = styled.div`
       font-size: 19em !important;
       font-family: "Modernist Bold", sans-serif;
     }
+
+    ${breakpoints.mobileDevices} {
+      font-size: 0.4em !important;
+    }
   }
 `;
 
 const LoaderLine = styled(a.span)`
   position: absolute;
   top: 85%;
-  left: calc(50% - 500px);
+  left: calc(50% - 35vw);
   /* background: rgb(255, 153, 102); */
 
   background: ${({ theme }) => `linear-gradient(
@@ -258,7 +269,7 @@ const LoaderLine = styled(a.span)`
   )`};
   transform-origin: left;
   transform: scaleX(0);
-  width: 1000px;
+  width: 70vw;
   height: 3px;
 `;
 
