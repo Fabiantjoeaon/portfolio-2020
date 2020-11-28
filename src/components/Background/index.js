@@ -37,14 +37,15 @@ function Plane({
 
   useEffect(() => {
     function handleScroll() {
-      //TODO: Optimize!
       const shouldScroll = document.documentElement.scrollTop > 150;
-      setScrolled(shouldScroll);
+      if ((scrolled && !shouldScroll) || (!scrolled && shouldScroll))
+        setScrolled(shouldScroll);
     }
+
     if (!shouldTransition) window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [scrolled]);
 
   const isActiveOnHome = useRouteActive(path, "/");
 
@@ -181,23 +182,24 @@ function Plane({
 
   useFrame(({ clock }) => {
     if (mesh.current) {
-      mesh.current.material.uniforms["uAlpha"].value = shouldTransition
-        ? opacity?.get() || 0
-        : 1;
+      mesh.current.material.uniforms["uTime"].value = clock.elapsedTime / 7;
+      // if (hasColor || !shouldTransition) return;
       if (!hasColor) {
         mesh.current.material.uniforms[
           "uHasColor"
         ].value = colorTransform?.get();
       }
 
-      mesh.current.material.uniforms["uTime"].value = clock.elapsedTime / 7;
+      mesh.current.material.uniforms["uAlpha"].value = shouldTransition
+        ? opacity?.get() || 0
+        : 1;
     }
   });
 
   return (
     <a.mesh ref={mesh} position={pos}>
       <planeGeometry
-        args={[...planeDimensions, 64, 64]}
+        args={[...planeDimensions, 1, 1]}
         attach="geometry"
       ></planeGeometry>
       <shaderMaterial
@@ -212,7 +214,13 @@ function Plane({
 
 export function Background({ path, loadingDone }) {
   return (
-    <StyledCanvas>
+    <StyledCanvas
+      gl={{
+        antialias: false,
+        powerPreference: "low-power",
+        debug: { checkShaderErrors: false },
+      }}
+    >
       <Plane
         divisor={{ width: 1.32, height: 1.4 }}
         path={path}

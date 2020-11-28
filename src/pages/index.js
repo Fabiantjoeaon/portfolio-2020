@@ -33,7 +33,6 @@ const IndexPage = ({ path, loadingDone }) => {
             delay={loadingDone ? 2000 : theme.initialLoadingTime + 2000 + 2000}
             TextComponent={a.h1}
             toggle={isActive}
-            options={{ align: "left" }}
             wordDelay={1000}
           ></AnimatedCharacters>
         </AnimatedTextWrapper>
@@ -41,7 +40,6 @@ const IndexPage = ({ path, loadingDone }) => {
           items={["Creative developer", "from Rotterdam"]}
           toggle={isActive}
           delay={loadingDone ? 3500 : theme.initialLoadingTime + 3500 + 2000}
-          options={{ height: bottomTextHeight, spacing: 2 }}
           containerStyle={{ textAlign: "right" }}
           TextComponent={a.h2}
         ></AnimatedParagraph>
@@ -93,7 +91,7 @@ const StyledIndex = styled.div`
       letter-spacing: 1px;
       margin: 0px;
       font-weight: 100;
-      font-size: 4em;
+      font-size: 3em;
       font-family: "Castoro Italic", sans-serif;
     }
   }

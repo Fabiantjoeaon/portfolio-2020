@@ -1,21 +1,31 @@
-import React, { useMemo, useEffect, useRef } from "react";
+import React, { useMemo, useLayoutEffect, useRef, useState } from "react";
 import { useTransition, animated as a, interpolate } from "react-spring";
 import styled from "styled-components";
 
 import { sleep } from "../utils";
 
+function calculateWordDimensions(div) {
+  // Not sure if this factor is different per font..
+  const fontFactor = 8;
+  const { width, height } = div.getBoundingClientRect();
+  return { width, height: height + fontFactor };
+}
+
+// TODO: Dynamically calculate dimensions and only animate when calculated using toggle overwrite
 export function AnimatedCharacters({
   text,
   toggle,
   animateX = false,
   animateY = true,
+  animateFromOverflow = true,
   delay = 800,
   wordDelay,
-  options = { height: 80, spacing: 4, align: "left" },
   springConfig = { mass: 5, tension: 2000, friction: 200 },
   TextComponent,
   containerStyle = {},
 }) {
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+  const textRef = useRef();
   const items = useMemo(
     () =>
       toggle
@@ -31,25 +41,33 @@ export function AnimatedCharacters({
     [toggle]
   );
 
+  // useLayoutEffect(() => {
+  //   if (text.current && toggle && animateY) {
+  //     setDimensions(calculateWordDimensions(text.current));
+  //   }
+  // }, [text.current]);
+
   const transition = useTransition(items, item => item.id, {
     from: {
       opacity: 0,
-      transformX: animateX ? -20 : 0,
-      transformY: animateY ? 20 : 0,
+      transformX: animateX ? (animateFromOverflow ? -80 : -20) : 0,
+      transformY: animateY ? (animateFromOverflow ? 100 : 20) : 0,
+      skew: animateFromOverflow ? 10 : 0,
     },
     enter: item => async next => {
       const possibleWordDelay =
         item.character === " " && wordDelay ? wordDelay : 0;
       await sleep(delay + item.trail + possibleWordDelay);
       // if (item.character === " " && wordDelay) await sleep();
-      next({ opacity: 1, transformY: 0, transformX: 0 });
+      next({ opacity: 1, transformY: 0, transformX: 0, skew: 0 });
     },
     leave: item => async next => {
       await sleep(item.trail);
       next({
         opacity: 0,
-        transformX: animateX ? -20 : 0,
-        transformY: animateY ? 20 : 0,
+        transformX: animateX ? (animateFromOverflow ? -80 : -20) : 0,
+        transformY: animateY ? (animateFromOverflow ? 100 : 20) : 0,
+        skew: animateFromOverflow ? 10 : 0,
       });
     },
     // trail: 200,
@@ -57,27 +75,38 @@ export function AnimatedCharacters({
   });
 
   return (
-    <CharacterWrapper
-      className="animated-title"
-      style={{ ...containerStyle, textAlign: options.align }}
-    >
+    <CharacterWrapper className="animated-title" style={{ ...containerStyle }}>
       {transition.map(
-        ({ item, key, props: { transformX, transformY, opacity } }) => {
+        ({ item, key, props: { transformX, transformY, opacity, skew } }) => {
           return (
             item && (
-              <TextComponent
-                key={key}
-                className=""
+              <a.div
                 style={{
-                  transform: interpolate(
-                    [transformX, transformY],
-                    (x, y) => `translate3d(${x}px, ${y}px, 0px)`
-                  ),
-                  opacity,
+                  width: "auto",
+                  height: "auto",
+                  overflow: animateFromOverflow ? "hidden" : "inherit",
                 }}
               >
-                {item.character === " " ? <span>&nbsp;</span> : item.character}
-              </TextComponent>
+                <TextComponent
+                  key={key}
+                  ref={textRef}
+                  className=""
+                  style={{
+                    transform: interpolate(
+                      [transformX, transformY, skew],
+                      (x, y, s) =>
+                        `translate3d(${x}px, ${y}px, 0px) skew(${s}deg)`
+                    ),
+                    opacity: animateFromOverflow ? "1" : opacity,
+                  }}
+                >
+                  {item.character === " " ? (
+                    <span>&nbsp;</span>
+                  ) : (
+                    item.character
+                  )}
+                </TextComponent>
+              </a.div>
             )
           );
         }
@@ -89,48 +118,40 @@ export function AnimatedCharacters({
 export function AnimatedParagraph({
   items,
   delay = 1000,
-  options = { height: 80, spacing: 0 },
   TextComponent,
   containerStyle = {},
   toggle,
-  springConfig = { mass: 5, tension: 2000, friction: 200 },
+  springConfig = { tension: 200, friction: 60 },
   animateHeight = true,
 }) {
+  const text = useRef();
+  const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
+
+  useLayoutEffect(() => {
+    if (text.current && toggle) {
+      setDimensions(calculateWordDimensions(text.current));
+    }
+  }, [text.current]);
+
   const words = useMemo(
     () => (toggle ? items.map((w, i) => ({ id: i, word: w })) : []),
-    [toggle]
+    [dimensions.width]
   );
-
-  const text = useRef();
-  const heightRef = useRef(options.height || 40);
-
-  useEffect(() => {
-    if (text.current) {
-      const textHeight = parseInt(
-        window.getComputedStyle(text.current).fontSize,
-        10
-      );
-      const spacing = options.spacing || 0;
-      if (textHeight < 30) heightRef.current = textHeight * 2.5;
-      if (textHeight > 30) heightRef.current = textHeight * 1.25;
-
-      heightRef.current += spacing;
-    }
-  }, []);
 
   const transition = useTransition(words, ({ id }) => id, {
     from: {
-      height: 0,
-      opacity: 0,
-      transformY: 20,
+      // opacity: 0,
+      transformY: dimensions.height || 100,
+      skew: 40,
     },
     enter: () => async next => {
       await sleep(delay);
-      next({ height: heightRef.current, opacity: 1, transformY: 0 });
+      next({ transformY: 0, skew: 0 });
     },
     leave: () => async next => {
-      if (animateHeight) next({ height: 0, opacity: 0, transformY: 20 });
-      else next({ opacity: 0 });
+      if (animateHeight)
+        next({ skew: 40, transformY: dimensions.height || 100 });
+      // else next({ opacity: 0 });
     },
     trail: 175,
     config: springConfig,
@@ -139,23 +160,33 @@ export function AnimatedParagraph({
   return (
     <div style={containerStyle} className="animated-paragraph">
       {transition.map(
-        ({ item, key, props: { transformY, height, opacity } }) =>
+        ({ item, key, props: { transformY, skew } }) =>
           item && (
-            <TrailWord
-              key={key}
+            <a.div
               style={{
-                transform: transformY.interpolate(
-                  y => `translate3d(0px, ${y}px, 0px)`
-                ),
-                opacity,
+                width: "auto",
+                height: "auto",
+                overflow: "hidden",
               }}
-              spacing={options.spacing}
-              height={heightRef.current}
             >
-              <TextComponent ref={text} style={{ height }}>
+              <TextComponent
+                key={key}
+                style={{
+                  overflow: "hidden",
+
+                  transform: interpolate(
+                    [transformY, skew],
+                    (y, s) => `translate3d(0px, ${y}px, 0px) skew(${s}deg)`
+                  ),
+
+                  //width: dimensions.width || "auto",
+                  //width: dimensions.width || "auto",
+                }}
+                ref={text}
+              >
                 {item.word}
               </TextComponent>
-            </TrailWord>
+            </a.div>
           )
       )}
     </div>
@@ -167,18 +198,4 @@ const CharacterWrapper = styled.div`
   * {
     display: inline-block;
   }
-`;
-
-const TrailWord = styled(a.span)`
-  position: relative;
-  overflow: hidden;
-  will-change: transform, opacity;
-  line-height: ${({ height }) => height}px;
-  height: ${({ height }) => height}px;
-
-  display: block;
-  /* Needed because inline-block removes spaces */
-  margin-right: ${({ spacing }) => spacing}px;
-  /* display: flex;
-  align-content: flex-start; */
 `;

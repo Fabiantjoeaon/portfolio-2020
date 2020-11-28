@@ -58,7 +58,7 @@ const Layout = ({ location, children, path }) => {
   };
 
   useEffect(() => {
-    navigate("/");
+    // navigate("/");
     setTimeout(() => {
       initializeRef.current = true;
     }, theme.initialLoadingTime);
@@ -100,6 +100,7 @@ const Layout = ({ location, children, path }) => {
             text={"Loading"}
             toggle={!loadingDone}
             delay={400}
+            animateFromOverflow={false}
           ></AnimatedCharacters>
           {lineTrans.map(
             ({ item, key, props: { transformOrigin, scaleX } }) =>
