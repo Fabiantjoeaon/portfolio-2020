@@ -2,10 +2,12 @@ uniform float uTime;
 uniform float uFBMDivider;
 uniform float uHasColor;
 uniform float uAlpha;
+uniform float uShouldTransition;
+uniform vec2 uMouse;
 
 varying vec2 vUv;
 varying vec3 vPos;
-varying vec3 vNormal;
+
 
 float colormap_red(float x) {
     if (x < 0.0) {
@@ -82,12 +84,13 @@ float fbm( vec2 p )
 
 float pattern( in vec2 p )
 {
-	vec2 q = vec2( fbm( p + vec2(0.0,0.0) ),
+	vec2 q = vec2( fbm( p + uMouse / 3.0 ),
                    fbm( p + vec2(5.2,1.3) ) );
 
     vec2 r = vec2( fbm( p + 4.0*q + vec2(1.7,9.2) ),
                    fbm( p + 4.0*q + vec2(8.3,2.8) ) );
 
+    // return fbm( p + 4.0*r * sin(uTime * 2.) );
     return fbm( p + 4.0*r );
 }
 
@@ -96,7 +99,9 @@ float smoothness = 1.0;
 float seed = 12.9898;
 
 void main() {
-  float shade = pattern(vUv);
+  vec2 newUv = mix(vec2(0.0), uMouse / vec2(2.0), uShouldTransition);
+  
+  float shade = pattern(vUv + newUv);
   vec4 fbmColor = mix(vec4(shade) - .1, vec4(colormap(shade).rgb, shade), uHasColor);
 
   vec4 transparent = vec4(0.0);
@@ -111,5 +116,6 @@ void main() {
     discard;  
   }
 
+    // we can set r/g/b values here and it will look good!
   gl_FragColor = finalColor;
 }

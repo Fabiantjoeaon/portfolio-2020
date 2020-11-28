@@ -58,7 +58,7 @@ const Layout = ({ location, children, path }) => {
   };
 
   useEffect(() => {
-    navigate("/");
+    // navigate("/");
     setTimeout(() => {
       initializeRef.current = true;
     }, theme.initialLoadingTime);

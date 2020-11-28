@@ -21,7 +21,6 @@ import { useWindowSize, useFluidValue } from "../hooks";
 const IndexPage = ({ path, loadingDone }) => {
   const isActive = useRouteActive(path, "/");
   const { width, height } = useWindowSize();
-  const bottomTextHeight = useFluidValue(width, 40, 80);
 
   return (
     <FullHeightInner>

@@ -5,6 +5,7 @@ import React, {
   useRef,
   useMemo,
 } from "react";
+import * as THREE from "three";
 import styled from "styled-components";
 import glslify from "glslify";
 import { Canvas, useThree, useFrame } from "react-three-fiber";
@@ -33,6 +34,7 @@ function Plane({
   const { width: windowWidth, height: windowHeight } = useWindowSize();
   const defaultCameraZ = camera.position.z;
   const mesh = useRef();
+
   const prevScrolled = usePrevious(scrolled);
 
   useEffect(() => {
@@ -52,7 +54,9 @@ function Plane({
   const [{ pos }, setPlanePos] = useSpring(() => ({
     pos: [0, shouldTransition ? -1 : 0, z],
     config: {
-      friction: 126,
+      friction: 200,
+      tenstion: 180,
+      mass: 5,
     },
   }));
 
@@ -73,6 +77,15 @@ function Plane({
       },
       uAlpha: {
         value: opacity?.get() || shouldTransition ? 0 : 1,
+      },
+      uMouse: {
+        value: new THREE.Vector2(0, 0),
+      },
+      uShouldTransition: {
+        value: shouldTransition ? 1 : 0,
+      },
+      uBackgroundColor: {
+        value: new THREE.Vector2(),
       },
     }),
     []
@@ -142,7 +155,7 @@ function Plane({
   }, [isActiveOnHome, scrolled]);
 
   const handler = useCallback(
-    ({ xy: [cx, cy], previous: [px, py], memo = [0, 0] }) => {
+    ({ xy: [cx, cy], previous: [px, py], memo = [0, 0], dragging }) => {
       if (!shouldMove) return;
 
       const newX =
@@ -154,13 +167,16 @@ function Plane({
           ? clamp(((memo[1] + cy - py) / 150) * -1, -2, 2)
           : clamp(((cy - py) / 150) * -1, 0, 2);
 
-      setPlanePos({ pos: [newX, newY, z] });
+      setPlanePos({
+        pos: [dragging ? newX * 6 : newX, dragging ? newY * 6 : newY, z],
+      });
+
       return [newX, newY];
     },
     [pos, setPlanePos]
   );
 
-  useGesture({ onMove: handler }, { domTarget: window });
+  useGesture({ onMove: handler, onDrag: handler }, { domTarget: window });
 
   const planeDimensions = useMemo(() => {
     const distance = defaultCameraZ - z;
@@ -174,12 +190,17 @@ function Plane({
       mesh.current.geometry.verticesNeedUpdate = true;
       mesh.current.geometry.uvsNeedUpdate = true;
     }
-
-    return [planeWidth / divisor.width, planeHeight / divisor.height];
+    const a = aspect < 0.9 ? aspect : 0;
+    console.log(a);
+    return [planeWidth / divisor.width, planeHeight / divisor.height + a];
   }, [windowWidth, windowHeight, defaultCameraZ]);
 
-  useFrame(({ clock }) => {
+  useFrame(({ clock, mouse }) => {
     if (mesh.current) {
+      const p = pos?.get();
+      mesh.current.material.uniforms["uMouse"].value.x = p[0];
+      mesh.current.material.uniforms["uMouse"].value.y = p[1];
+
       mesh.current.material.uniforms["uTime"].value = clock.elapsedTime / 7;
       // if (hasColor || !shouldTransition) return;
       if (!hasColor) {
@@ -195,7 +216,7 @@ function Plane({
   });
 
   return (
-    <a.mesh ref={mesh} position={pos}>
+    <a.mesh ref={mesh} position={[0, 0, z]}>
       <planeGeometry
         args={[...planeDimensions, 1, 1]}
         attach="geometry"

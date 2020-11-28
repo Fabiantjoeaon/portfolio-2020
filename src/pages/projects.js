@@ -8,8 +8,6 @@ import { useRouteActive } from "../hooks";
 import { sleep } from "../utils";
 import { AnimatedCharacters } from "../components/AnimatedText";
 
-// https://www.clockstrikestwelve.com/
-// mix-blend-mode: difference;
 export default function ProjectPage({
   path,
   data: {
@@ -24,7 +22,7 @@ export default function ProjectPage({
       y: 50,
     },
     enter: () => async next => {
-      await sleep(1000);
+      await sleep(2000);
       next({ opacity: 1, y: 0 });
     },
     leave: {
@@ -33,6 +31,7 @@ export default function ProjectPage({
     },
     trail: 100,
   });
+
   return (
     <FullHeightInner>
       <StyledWork>
@@ -43,7 +42,7 @@ export default function ProjectPage({
             animateY={false}
             toggle={isActive}
             TextComponent={a.h1}
-            delay={500}
+            delay={1000}
           ></AnimatedCharacters>
         </div>
         <Projects>
