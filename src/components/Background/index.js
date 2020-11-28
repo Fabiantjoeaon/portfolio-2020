@@ -94,7 +94,6 @@ function Plane({
               mass: 3,
               friction: 500,
               tension: 200,
-              precision: 0.001,
             },
           });
         }
@@ -111,7 +110,6 @@ function Plane({
               mass: 4,
               friction: 100,
               tension: 180,
-              precision: 0.001,
             },
           });
           setPlanePos({
