@@ -99,6 +99,7 @@ float smoothness = 1.0;
 float seed = 12.9898;
 
 void main() {
+    // gl_FragColor =  vec4(1.0, 0.0, 0.0, uAlpha);
   vec2 newUv = mix(vec2(0.0), uMouse / vec2(2.0), uShouldTransition);
   
   float shade = pattern(vUv + newUv);

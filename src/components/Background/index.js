@@ -110,7 +110,7 @@ function Plane({
         value: colorTransform?.get(),
       },
       uAlpha: {
-        value: opacity?.get() || shouldTransition ? 0 : 1,
+        value: opacity?.get(),
       },
       uMouse: {
         value: new THREE.Vector2(0, 0),
@@ -242,23 +242,13 @@ function Plane({
       mesh.current.material.uniforms["uMouse"].value.y = p[1];
 
       mesh.current.material.uniforms["uTime"].value = clock.elapsedTime / 7;
-      // if (hasColor || !shouldTransition) return;
-      if (!hasColor) {
+
+      if (!hasColor)
         mesh.current.material.uniforms[
           "uHasColor"
         ].value = colorTransform?.get();
-      }
-
-      mesh.current.material.uniforms["uAlpha"].value = shouldTransition
-        ? opacity?.get() || 0
-        : 1;
-
-      if (shouldTransition) {
-        console.log(
-          mesh.current.material.uniforms["uAlpha"].value,
-          opacity?.get()
-        );
-      }
+      if (shouldTransition)
+        mesh.current.material.uniforms["uAlpha"].value = opacity?.get();
 
       mesh.current.material.uniforms["uUseColor"].value = bgIntensity?.get();
       mesh.current.material.uniforms["uBackgroundColor"].value = threeColor.set(
