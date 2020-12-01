@@ -253,6 +253,13 @@ function Plane({
         ? opacity?.get() || 0
         : 1;
 
+      if (shouldTransition) {
+        console.log(
+          mesh.current.material.uniforms["uAlpha"].value,
+          opacity?.get()
+        );
+      }
+
       mesh.current.material.uniforms["uUseColor"].value = bgIntensity?.get();
       mesh.current.material.uniforms["uBackgroundColor"].value = threeColor.set(
         bgColor?.get()
