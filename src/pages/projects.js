@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useRef } from "react";
 import { graphql, Link } from "gatsby";
 import styled from "styled-components";
 import { useTransition, animated as a } from "react-spring";
@@ -7,6 +7,7 @@ import { FullHeightInner } from "../components/styled/Inner";
 import { useRouteActive } from "../hooks";
 import { sleep } from "../utils";
 import { AnimatedCharacters } from "../components/AnimatedText";
+import { useStore } from "../BackgroundColorStore";
 
 export default function ProjectPage({
   path,
@@ -14,6 +15,8 @@ export default function ProjectPage({
     allMarkdownRemark: { edges: pages },
   },
 }) {
+  const setColor = useStore(state => state.setColor);
+  const clickLock = useRef(false);
   const isActive = useRouteActive(path, "/projects/");
   const items = useMemo(() => (isActive ? pages : []), [isActive]);
   const transition = useTransition(items, item => item.node.frontmatter.slug, {
@@ -32,6 +35,11 @@ export default function ProjectPage({
     trail: 100,
   });
 
+  useEffect(() => {
+    if (clickLock.current) clickLock.current = false;
+    if (!clickLock.current) setColor("default");
+  });
+
   return (
     <FullHeightInner>
       <StyledWork>
@@ -45,7 +53,14 @@ export default function ProjectPage({
             delay={1000}
           ></AnimatedCharacters>
         </div>
-        <Projects>
+        <Projects
+          onMouseLeave={() => {
+            if (!clickLock.current) setColor("default");
+          }}
+          onClick={() => {
+            clickLock.current = true;
+          }}
+        >
           {transition.map(
             ({ item, key, props: { opacity, y } }) =>
               item && (
@@ -58,7 +73,17 @@ export default function ProjectPage({
                     ),
                   }}
                 >
-                  <Link to={item.node.frontmatter.slug}>
+                  <Link
+                    onMouseOver={() => {
+                      if (!clickLock.current)
+                        setColor(
+                          item.node.frontmatter.slug
+                            .replace("/projects/", "")
+                            .replaceAll("-", "_")
+                        );
+                    }}
+                    to={item.node.frontmatter.slug}
+                  >
                     {item.node.frontmatter.title}
                   </Link>
                 </a.li>

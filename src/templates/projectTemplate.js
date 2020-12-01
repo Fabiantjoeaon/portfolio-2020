@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSpring, useTransition, animated as a } from "react-spring";
 import { graphql } from "gatsby";
 import { Inner } from "../components/styled/Inner";
@@ -8,12 +8,20 @@ import { useRouteActive } from "../hooks";
 import { AnimatedCharacters } from "../components/AnimatedText";
 import { sleep } from "../utils";
 
+import { useStore } from "../BackgroundColorStore";
+
 export default function Template({ data, path }) {
   const { markdownRemark } = data;
   const {
     frontmatter: { description, title, date, ...frontmatter },
     html,
   } = markdownRemark;
+
+  const setColor = useStore(state => state.setColor);
+
+  useEffect(() => {
+    setColor(path.replace("/projects/", "").replaceAll("-", "_"));
+  });
 
   const isActive = useRouteActive(path, "projects", true);
 

@@ -4,17 +4,19 @@ import React, {
   useEffect,
   useRef,
   useMemo,
+  useContext,
 } from "react";
 import * as THREE from "three";
 import styled from "styled-components";
 import glslify from "glslify";
-import { Canvas, useThree, useFrame } from "react-three-fiber";
-import { theme } from "../styled/theme";
-import { useGesture } from "react-use-gesture";
-import { useWindowSize, useRouteActive, usePrevious } from "../../hooks";
-
 import { useSpring, animated as a, config } from "@react-spring/three";
+import { Canvas, useThree, useFrame } from "react-three-fiber";
+import { useGesture } from "react-use-gesture";
+
+import { theme } from "../styled/theme";
+import { useWindowSize, useRouteActive, usePrevious } from "../../hooks";
 import { clamp, sleep } from "../../utils";
+import { useStore } from "../../BackgroundColorStore";
 
 import vert from "./vert.glsl";
 import frag from "./frag.glsl";
@@ -35,21 +37,53 @@ function Plane({
   const defaultCameraZ = camera.position.z;
   const mesh = useRef();
 
+  const [color, colorKey, setColor] = useStore(state => [
+    state.color,
+    state.key,
+    state.setColor,
+  ]);
+  const { value, intensity } = color;
+  const threeColor = new THREE.Color();
+
+  const isActiveOnHome = useRouteActive(path, "/");
   const prevScrolled = usePrevious(scrolled);
+
+  const [{ bgColor }] = useSpring(
+    {
+      bgColor: value,
+      config: {
+        mass: 2,
+        friction: 90,
+        tension: 240,
+        precision: 0.001,
+      },
+    },
+    [value]
+  );
+  const [{ bgIntensity }] = useSpring(
+    {
+      bgIntensity: intensity,
+      config: { precision: 0.001 },
+    },
+    [intensity]
+  );
 
   useEffect(() => {
     function handleScroll() {
       const shouldScroll = document.documentElement.scrollTop > 150;
-      if ((scrolled && !shouldScroll) || (!scrolled && shouldScroll))
+      if ((scrolled && !shouldScroll) || (!scrolled && shouldScroll)) {
+        if (shouldScroll) {
+          setColor("default");
+        } else setColor(path.replace("/projects/", "").replaceAll("-", "_"));
+
         setScrolled(shouldScroll);
+      }
     }
 
     if (!shouldTransition) window.addEventListener("scroll", handleScroll);
 
     return () => window.removeEventListener("scroll", handleScroll);
   }, [scrolled]);
-
-  const isActiveOnHome = useRouteActive(path, "/");
 
   const [{ pos }, setPlanePos] = useSpring(() => ({
     pos: [0, shouldTransition ? -1 : 0, z],
@@ -85,7 +119,10 @@ function Plane({
         value: shouldTransition ? 1 : 0,
       },
       uBackgroundColor: {
-        value: new THREE.Vector2(),
+        value: threeColor.set(value),
+      },
+      uUseColor: {
+        value: 0,
       },
     }),
     []
@@ -110,11 +147,16 @@ function Plane({
             },
           });
         }
-        if (!hasColor)
+        if (!hasColor) {
           setColorTransform({
             colorTransform: 0,
-            config: config.molasses,
+            config: {
+              mass: 2,
+              friction: 150,
+              tension: 180,
+            },
           });
+        }
       } else {
         if (shouldTransition) {
           setPlaneOpacity({
@@ -131,7 +173,6 @@ function Plane({
               mass: 4,
               friction: 200,
               tension: 100,
-              precision: 0.001,
             },
           });
         }
@@ -144,7 +185,6 @@ function Plane({
               mass: 2,
               friction: 150,
               tension: 180,
-              precision: 0.001,
             },
           });
         }
@@ -164,8 +204,8 @@ function Plane({
           : clamp(((cx - px) / 150) * -1, 0, 2);
       const newY =
         memo && memo.length
-          ? clamp(((memo[1] + cy - py) / 150) * -1, -2, 2)
-          : clamp(((cy - py) / 150) * -1, 0, 2);
+          ? clamp((memo[1] + cy - py) / 150, -2, 2)
+          : clamp((cy - py) / 150, 0, 2);
 
       setPlanePos({
         pos: [dragging ? newX * 6 : newX, dragging ? newY * 6 : newY, z],
@@ -191,7 +231,7 @@ function Plane({
       mesh.current.geometry.uvsNeedUpdate = true;
     }
     const a = aspect < 0.9 ? aspect : 0;
-    console.log(a);
+
     return [planeWidth / divisor.width, planeHeight / divisor.height + a];
   }, [windowWidth, windowHeight, defaultCameraZ]);
 
@@ -212,6 +252,13 @@ function Plane({
       mesh.current.material.uniforms["uAlpha"].value = shouldTransition
         ? opacity?.get() || 0
         : 1;
+
+      mesh.current.material.uniforms["uUseColor"].value = bgIntensity?.get();
+      mesh.current.material.uniforms["uBackgroundColor"].value = threeColor.set(
+        bgColor?.get()
+      );
+
+      // console.log(mesh.current.material.uniforms["uUseColor"].value);
     }
   });
 

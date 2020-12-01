@@ -23,6 +23,7 @@ export function AnimatedCharacters({
   springConfig = { mass: 5, tension: 2000, friction: 200 },
   TextComponent,
   containerStyle = {},
+  shouldBreak,
 }) {
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const textRef = useRef();

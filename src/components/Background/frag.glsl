@@ -3,11 +3,11 @@ uniform float uFBMDivider;
 uniform float uHasColor;
 uniform float uAlpha;
 uniform float uShouldTransition;
+uniform float uUseColor;
+uniform vec3 uBackgroundColor;
 uniform vec2 uMouse;
 
 varying vec2 vUv;
-varying vec3 vPos;
-
 
 float colormap_red(float x) {
     if (x < 0.0) {
@@ -116,6 +116,18 @@ void main() {
     discard;  
   }
 
-    // we can set r/g/b values here and it will look good!
-  gl_FragColor = finalColor;
+    gl_FragColor = mix(
+        mix(
+        finalColor,
+        vec4(
+            uBackgroundColor.rg,
+            finalColor.b,
+            uUseColor - 0.2
+        ),
+        uUseColor
+        ),
+        
+        finalColor, 
+        uShouldTransition
+    );
 }

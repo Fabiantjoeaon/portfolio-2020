@@ -5,9 +5,10 @@ import { useStaticQuery, graphql } from "gatsby";
 import { TransitionProvider, TransitionViews } from "gatsby-plugin-transitions";
 import { Canvas, useThree } from "react-three-fiber";
 import { useTransition, animated as a } from "react-spring";
+import { navigate } from "@reach/router";
 
 import { AnimatedCharacters } from "../components/AnimatedText";
-import { navigate } from "@reach/router";
+
 import Header from "../components/header";
 
 import { theme } from "../components/styled/theme";
@@ -120,6 +121,7 @@ const Layout = ({ location, children, path }) => {
         <StyledLayout>
           <Header loadingDone={loadingDone}></Header>
           <Background loadingDone={loadingDone} path={path} />
+
           <TransitionProvider {...transitionProps}>
             <TransitionViews>
               {cloneElement(children, {

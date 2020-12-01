@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useLayoutEffect, useState, useEffect } from "react";
 import { Link } from "gatsby";
 import styled from "styled-components";
 import { animated as a } from "react-spring";
@@ -16,12 +16,17 @@ import {
   AnimatedParagraph,
   AnimatedText,
 } from "../components/AnimatedText";
+import { useStore } from "../BackgroundColorStore";
 import { useWindowSize, useFluidValue } from "../hooks";
 
 const IndexPage = ({ path, loadingDone }) => {
   const isActive = useRouteActive(path, "/");
   const { width, height } = useWindowSize();
+  const setColor = useStore(state => state.setColor);
 
+  useLayoutEffect(() => {
+    setColor("default");
+  });
   return (
     <FullHeightInner>
       <StyledIndex>
