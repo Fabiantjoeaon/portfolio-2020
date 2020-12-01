@@ -99,7 +99,7 @@ float smoothness = 1.0;
 float seed = 12.9898;
 
 void main() {
-    // gl_FragColor =  vec4(1.0, 0.0, 0.0, uAlpha);
+    
   vec2 newUv = mix(vec2(0.0), uMouse / vec2(2.0), uShouldTransition);
   
   float shade = pattern(vUv + newUv);
@@ -113,22 +113,23 @@ void main() {
   float q = smoothstep(lower, higher, shade);
 
   vec4 finalColor = mix(fbmColor, transparent, 0.0 + q);
-  if (finalColor.a <= 0.0) {
-    discard;  
-  }
+  gl_FragColor =  mix(finalColor, mix(vec4(0.0), vec4(1.0, 0.0, 0.0, 1.0), uAlpha), uShouldTransition);
+//   if (finalColor.a <= 0.0) {
+//     discard;  
+//   }
 
-    gl_FragColor = mix(
-        mix(
-        finalColor,
-        vec4(
-            uBackgroundColor.rg,
-            finalColor.b,
-            uUseColor - 0.2
-        ),
-        uUseColor
-        ),
+    // gl_FragColor = mix(
+    //     mix(
+    //     finalColor,
+    //     vec4(
+    //         uBackgroundColor.rg,
+    //         finalColor.b,
+    //         uUseColor - 0.2
+    //     ),
+    //     uUseColor
+    //     ),
         
-        finalColor, 
-        uShouldTransition
-    );
+    //     finalColor, 
+    //     uShouldTransition
+    // );
 }
