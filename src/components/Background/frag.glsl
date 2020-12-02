@@ -90,12 +90,13 @@ float pattern( in vec2 p )
     vec2 r = vec2( fbm( p + 4.0*q + vec2(1.7,9.2) ),
                    fbm( p + 4.0*q + vec2(8.3,2.8) ) );
 
-    // return fbm( p + 4.0*r * sin(uTime * 2.) );
+    // return fbm( p + 4.0*r * acos(uTime * 2.) );
     return fbm( p + 4.0*r );
 }
 
-float scale = 8.0;
-float smoothness = 1.0;
+float scale = 1.0;
+// Smoothness of exactly 1.0 doesn't render properly on some devices
+float smoothness = 0.7;
 float seed = 12.9898;
 
 void main() {
@@ -105,31 +106,31 @@ void main() {
   float shade = pattern(vUv + newUv);
   vec4 fbmColor = mix(vec4(shade) - .1, vec4(colormap(shade).rgb, shade), uHasColor);
 
-  vec4 transparent = vec4(0.0);
-
+  vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
+    
   float p = mix(-smoothness, 1.0 + smoothness, uAlpha);
   float lower = p - smoothness;
   float higher = p + smoothness; 
   float q = smoothstep(lower, higher, shade);
 
   vec4 finalColor = mix(fbmColor, transparent, 0.0 + q);
-  gl_FragColor =  mix(finalColor, mix(vec4(0.0), vec4(1.0, 0.0, 0.0, 1.0), uAlpha), uShouldTransition);
-//   if (finalColor.a <= 0.0) {
-//     discard;  
-//   }
 
-    // gl_FragColor = mix(
-    //     mix(
-    //     finalColor,
-    //     vec4(
-    //         uBackgroundColor.rg,
-    //         finalColor.b,
-    //         uUseColor - 0.2
-    //     ),
-    //     uUseColor
-    //     ),
+  if (finalColor.a <= 0.0) {
+    discard;  
+  }
+
+    gl_FragColor = mix(
+        mix(
+        finalColor,
+        vec4(
+            uBackgroundColor.rg,
+            finalColor.b,
+            uUseColor - 0.2
+        ),
+        uUseColor
+        ),
         
-    //     finalColor, 
-    //     uShouldTransition
-    // );
+        finalColor, 
+        uShouldTransition
+    );
 }
