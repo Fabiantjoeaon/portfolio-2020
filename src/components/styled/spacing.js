@@ -1,34 +1,14 @@
 import { css } from "styled-components";
 
 import { breakpoints, targetIE11AndLower } from "./media";
+import { theme } from "./theme";
 
 export const innerWidthSpacing = css`
   margin: 0 auto;
 
-  ${breakpoints.xl} {
-    width: ${({ theme }) => theme.maxInnerWidth.xl};
-    max-width: ${({ theme }) => theme.maxInnerWidth.xl};
-  }
+  width: 85%;
 
-  ${breakpoints.lg} {
-    width: ${({ theme }) => theme.maxInnerWidth.lg};
-    max-width: ${({ theme }) => theme.maxInnerWidth.lg};
-  }
-
-  ${breakpoints.mdPlus} {
-    width: ${({ theme }) => theme.maxInnerWidth.mdPlus};
-    max-width: ${({ theme }) => theme.maxInnerWidth.mdPlus};
-  }
-
-  ${breakpoints.md} {
-    width: ${({ theme }) => theme.maxInnerWidth.sm};
-    max-width: ${({ theme }) => theme.maxInnerWidth.sm};
-  }
-
-  ${breakpoints.sm} {
-    width: ${({ theme }) => theme.maxInnerWidth.sm};
-    max-width: ${({ theme }) => theme.maxInnerWidth.sm};
-  }
+  ${generateWidthCSS(theme.maxInnerWidth, breakpoints)};
 
   ${targetIE11AndLower} {
     width: 100%;
@@ -39,33 +19,24 @@ export const innerWidthSpacing = css`
 export const outerWidthSpacing = css`
   margin: 0 auto;
 
-  ${breakpoints.xl} {
-    width: ${({ theme }) => theme.maxOuterWidth.xl};
-    max-width: ${({ theme }) => theme.maxOuterWidth.xl};
-  }
-
-  ${breakpoints.lg} {
-    width: ${({ theme }) => theme.maxOuterWidth.lg};
-    max-width: ${({ theme }) => theme.maxOuterWidth.lg};
-  }
-
-  ${breakpoints.mdPlus} {
-    width: ${({ theme }) => theme.maxOuterWidth.mdPlus};
-    max-width: ${({ theme }) => theme.maxOuterWidth.mdPlus};
-  }
-
-  ${breakpoints.md} {
-    width: ${({ theme }) => theme.maxOuterWidth.sm};
-    max-width: ${({ theme }) => theme.maxOuterWidth.sm};
-  }
-
-  ${breakpoints.sm} {
-    width: ${({ theme }) => theme.maxOuterWidth.sm};
-    max-width: ${({ theme }) => theme.maxOuterWidth.sm};
-  }
+  ${generateWidthCSS(theme.maxOuterWidth, breakpoints)};
 
   ${targetIE11AndLower} {
     width: 100%;
     max-width: 100%;
   }
 `;
+
+function generateWidthCSS(widthMap, breakpoints) {
+  let css = ``;
+  for (const [key, value] of Object.entries(widthMap)) {
+    css += `
+      ${breakpoints[key]} {
+        width: ${value};
+        max-width: ${value};
+      }
+    `;
+  }
+
+  return css;
+}

@@ -4,10 +4,11 @@ import styled from "styled-components";
 import { useTransition, animated as a } from "react-spring";
 import { FullHeightInner } from "../components/styled/Inner";
 
-import { useRouteActive } from "../hooks";
+import { useRouteActive, useWindowSize } from "../hooks";
 import { sleep } from "../utils";
 import { AnimatedCharacters } from "../components/AnimatedText";
 import { useStore } from "../BackgroundColorStore";
+import { widthMap, breakpoints } from "../components/styled/media";
 
 export default function ProjectPage({
   path,
@@ -43,16 +44,18 @@ export default function ProjectPage({
   return (
     <FullHeightInner>
       <StyledWork>
-        <div>
-          <AnimatedCharacters
-            text={"Selected work"}
-            animateX
-            animateY={false}
-            toggle={isActive}
-            TextComponent={a.h1}
-            delay={1000}
-          ></AnimatedCharacters>
-        </div>
+        <AnimatedCharacters
+          text={"Selected work"}
+          animateX
+          animateY={false}
+          toggle={isActive}
+          TextComponent={a.h1}
+          delay={1000}
+          breakConditions={{
+            width: widthMap.mdPlus,
+          }}
+        ></AnimatedCharacters>
+
         <Projects
           onMouseLeave={() => {
             if (!clickLock.current) setColor("default");
@@ -113,20 +116,33 @@ export const pageQuery = graphql`
 const Projects = styled.ul`
   align-self: flex-end;
   padding: 0px;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: space-between;
+  height: 100%;
+  margin: 0px;
 
   li {
     list-style-type: none;
     text-align: right;
 
-    font-size: 3em;
-    margin-bottom: 35px;
-
     a {
+      font-size: 3.5em;
       color: #fff;
       text-decoration: none;
-      font-family: "Castoro Italic", serif;
+      font-family: "Modernist Bold", serif;
+
+      /* font-family: "Castoro Regular", serif; */
+      /* -webkit-text-fill-color: rgba(0, 0, 0, 0);
+
+      -webkit-text-stroke-width: 1px;
+      -webkit-text-stroke-color: #fff; */
       &::visited {
         color: #fff;
+      }
+
+      ${breakpoints.mdPlus} {
+        font-size: 2.5em;
       }
     }
 
@@ -171,7 +187,27 @@ const StyledWork = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  h2 {
-    width: 50%;
+  height: 60%;
+  h1 {
+    text-transform: uppercase;
+    -webkit-text-fill-color: rgba(0, 0, 0, 0);
+
+    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-color: #fff;
+    margin: 0px;
+  }
+
+  ${breakpoints.lg} {
+    height: 50%;
+    h1 {
+      font-size: 4em;
+    }
+  }
+
+  ${breakpoints.mdPlus} {
+    height: 37%;
+    h1 {
+      font-size: 4em;
+    }
   }
 `;

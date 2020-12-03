@@ -1,6 +1,8 @@
 export const widthMap = {
-  lg: 1600,
-  mdPlus: 1280,
+  xl: 2000,
+  lg: 1720,
+  mdPlus: 1380,
+  mdMed: 1260,
   md: 996,
   mdMin: 768,
   sm: 480,
@@ -9,9 +11,10 @@ export const widthMap = {
 export const mobileBreakpoint = widthMap.md;
 
 export const breakpoints = {
-  xl: `@media all and (min-width: ${widthMap.lg}px)`,
+  xl: `@media all and (min-width: ${widthMap.xl}px)`,
   lg: `@media all and (max-width: ${widthMap.lg}px)`,
   mdPlus: `@media all and (max-width: ${widthMap.mdPlus}px)`,
+  mdMed: `@media all and (max-width: ${widthMap.mdMed}px)`,
   md: `@media all and (max-width: ${widthMap.md}px)`,
   mdMin: `@media all and (max-width: ${widthMap.mdMin}px)`,
   sm: `@media all and (max-width: ${widthMap.sm}px)`,

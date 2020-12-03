@@ -10,14 +10,13 @@ import { useRouteActive } from "../hooks";
 
 import { FullHeightInner } from "../components/styled/Inner";
 import { theme } from "../components/styled/theme";
-import { breakpoints } from "../components/styled/media";
+import { breakpoints, mobileBreakpoint } from "../components/styled/media";
 import {
   AnimatedCharacters,
   AnimatedParagraph,
-  AnimatedText,
 } from "../components/AnimatedText";
 import { useStore } from "../BackgroundColorStore";
-import { useWindowSize, useFluidValue } from "../hooks";
+import { useWindowSize } from "../hooks";
 
 const IndexPage = ({ path, loadingDone }) => {
   const isActive = useRouteActive(path, "/");
@@ -27,6 +26,7 @@ const IndexPage = ({ path, loadingDone }) => {
   useLayoutEffect(() => {
     setColor("default");
   });
+
   return (
     <FullHeightInner>
       <StyledIndex>
@@ -38,6 +38,9 @@ const IndexPage = ({ path, loadingDone }) => {
             TextComponent={a.h1}
             toggle={isActive}
             wordDelay={1000}
+            breakConditions={{
+              width: mobileBreakpoint,
+            }}
           ></AnimatedCharacters>
         </AnimatedTextWrapper>
         <AnimatedParagraph
@@ -76,6 +79,14 @@ const AnimatedTextWrapper = styled.div`
   .name-first {
     margin-right: 40px;
   }
+
+  ${breakpoints.mdPlus} {
+    .animated-paragraph {
+      h2 {
+        font-size: 2.5em;
+      }
+    }
+  }
 `;
 
 const StyledIndex = styled.div`
@@ -83,11 +94,8 @@ const StyledIndex = styled.div`
   height: 65%;
   flex-flow: column nowrap;
   justify-content: space-between;
-
-  ${breakpoints.mdPlus} {
-    width: 75%;
-    margin: 0 auto;
-  }
+  width: 90%;
+  margin: 0 auto;
 
   .animated-paragraph {
     align-self: flex-end;
@@ -98,6 +106,11 @@ const StyledIndex = styled.div`
       font-size: 3em;
       font-family: "Castoro Italic", sans-serif;
     }
+  }
+
+  ${breakpoints.mobileDevices} {
+    width: 80%;
+    height: 75%;
   }
 `;
 

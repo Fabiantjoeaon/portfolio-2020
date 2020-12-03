@@ -208,6 +208,10 @@ const GlobalStyle = createGlobalStyle`
     font-family: "Modernist Bold", sans-serif;
     font-size: 6em;
 
+
+    ${breakpoints.mdPlus} {
+      font-size: 4.5em;
+    }
   }
 
   h2 {

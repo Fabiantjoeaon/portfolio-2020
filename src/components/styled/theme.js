@@ -1,9 +1,10 @@
 const settings = {
   maxInnerWidth: {
-    xl: "1450px",
+    xl: "1550px",
     lg: "1260px",
+    mdMed: "1100px",
     mdPlus: "1000px",
-    md: "900px",
+    md: "85%",
     sm: "85%",
   },
 

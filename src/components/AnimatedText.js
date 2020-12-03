@@ -3,6 +3,7 @@ import { useTransition, animated as a, interpolate } from "react-spring";
 import styled from "styled-components";
 
 import { sleep } from "../utils";
+import { useWindowSize } from "../hooks";
 
 function calculateWordDimensions(div) {
   // Not sure if this factor is different per font..
@@ -23,8 +24,17 @@ export function AnimatedCharacters({
   springConfig = { mass: 5, tension: 2000, friction: 200 },
   TextComponent,
   containerStyle = {},
-  shouldBreak,
+  breakConditions,
 }) {
+  const { width } = useWindowSize();
+  const shouldBreak = useMemo(() => {
+    if (!breakConditions || !breakConditions.width) return false;
+    // const characterAmount = text.replace(" ", "").split("").length;
+    const widthDiff = width - breakConditions.width;
+
+    return widthDiff < 0;
+  }, [breakConditions, width]);
+
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
   const textRef = useRef();
   const items = useMemo(
@@ -51,7 +61,7 @@ export function AnimatedCharacters({
   const transition = useTransition(items, item => item.id, {
     from: {
       opacity: 0,
-      transformX: animateX ? (animateFromOverflow ? -80 : -20) : 0,
+      transformX: animateX ? (animateFromOverflow ? -100 : -20) : 0,
       transformY: animateY ? (animateFromOverflow ? 100 : 20) : 0,
       skew: animateFromOverflow ? 10 : 0,
     },
@@ -66,7 +76,7 @@ export function AnimatedCharacters({
       await sleep(item.trail);
       next({
         opacity: 0,
-        transformX: animateX ? (animateFromOverflow ? -80 : -20) : 0,
+        transformX: animateX ? (animateFromOverflow ? -100 : -20) : 0,
         transformY: animateY ? (animateFromOverflow ? 100 : 20) : 0,
         skew: animateFromOverflow ? 10 : 0,
       });
@@ -79,36 +89,39 @@ export function AnimatedCharacters({
     <CharacterWrapper className="animated-title" style={{ ...containerStyle }}>
       {transition.map(
         ({ item, key, props: { transformX, transformY, opacity, skew } }) => {
-          return (
-            item && (
-              <a.div
+          return item && item.character === " " ? (
+            <TextComponent
+              style={{
+                display: shouldBreak ? "block" : "inline",
+                height: shouldBreak ? "0px" : "auto",
+              }}
+            >
+              &nbsp;
+            </TextComponent>
+          ) : (
+            <a.div
+              style={{
+                width: "auto",
+                height: "auto",
+                overflow: animateFromOverflow ? "hidden" : "inherit",
+              }}
+            >
+              <TextComponent
+                key={key}
+                ref={textRef}
+                className=""
                 style={{
-                  width: "auto",
-                  height: "auto",
-                  overflow: animateFromOverflow ? "hidden" : "inherit",
+                  transform: interpolate(
+                    [transformX, transformY, skew],
+                    (x, y, s) =>
+                      `translate3d(${x}px, ${y}px, 0px) skew(${s}deg)`
+                  ),
+                  opacity: animateFromOverflow ? "1" : opacity,
                 }}
               >
-                <TextComponent
-                  key={key}
-                  ref={textRef}
-                  className=""
-                  style={{
-                    transform: interpolate(
-                      [transformX, transformY, skew],
-                      (x, y, s) =>
-                        `translate3d(${x}px, ${y}px, 0px) skew(${s}deg)`
-                    ),
-                    opacity: animateFromOverflow ? "1" : opacity,
-                  }}
-                >
-                  {item.character === " " ? (
-                    <span>&nbsp;</span>
-                  ) : (
-                    item.character
-                  )}
-                </TextComponent>
-              </a.div>
-            )
+                {item.character}
+              </TextComponent>
+            </a.div>
           );
         }
       )}

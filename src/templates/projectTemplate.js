@@ -6,9 +6,11 @@ import styled, { createGlobalStyle } from "styled-components";
 
 import { useRouteActive } from "../hooks";
 import { AnimatedCharacters } from "../components/AnimatedText";
+
 import { sleep } from "../utils";
 
 import { useStore } from "../BackgroundColorStore";
+import AnimatedLine from "../components/AnimatedLine";
 
 export default function Template({ data, path }) {
   const { markdownRemark } = data;
@@ -28,13 +30,15 @@ export default function Template({ data, path }) {
   const descriptionTransition = useTransition(isActive, null, {
     from: {
       opacity: 0,
+      x: -100,
     },
     enter: () => async next => {
-      await sleep(1600);
-      await next({ opacity: 1 });
+      await sleep(1400);
+      await next({ opacity: 1, x: 0 });
     },
     leave: {
       opacity: 0,
+      x: -100,
     },
   });
 
@@ -43,7 +47,7 @@ export default function Template({ data, path }) {
       offset: 400,
     },
     enter: () => async next => {
-      await sleep(2000);
+      await sleep(3200);
       await next({ offset: 0 });
     },
     leave: {
@@ -58,7 +62,7 @@ export default function Template({ data, path }) {
   const lineTransition = useTransition(isActive, null, {
     from: { scaleY: 0, transformOrigin: "bottom" },
     enter: () => async next => {
-      await sleep(2500);
+      await sleep(3400);
       while (isActive) {
         await next({ scaleY: 1, transformOrigin: "top" });
         await next({ scaleY: 0, transformOrigin: "bottom" });
@@ -88,13 +92,13 @@ export default function Template({ data, path }) {
     },
   });
 
-  const clientValueTransition = useTransition(isActive, null, {
+  const scrollTextTransition = useTransition(isActive, null, {
     from: {
       y: 20,
       opacity: 0,
     },
     enter: () => async next => {
-      await sleep(2100);
+      await sleep(3500);
       next({ y: 0, opacity: 1 });
     },
     leave: {
@@ -116,30 +120,36 @@ export default function Template({ data, path }) {
               animateY={false}
               delay={500}
               toggle={isActive}
-              TextComponent={a.h2}
+              TextComponent={a.h1}
+              breakConditions={{
+                width: 1700,
+                characterLength: 20,
+              }}
             />
           </div>
-          <div className="project__scroll">
-            {descriptionTransition.map(
-              ({ item, key, props: { opacity } }) =>
-                item && (
-                  <a.span key={key} style={{ opacity }}>
-                    Scroll down to learn more
-                  </a.span>
-                )
-            )}
-          </div>
+
           <div className="project__meta">
             <div className="project__meta__top">
               <div className="project__description">
-                {descriptionTransition.map(
-                  ({ item, key, props: { opacity } }) =>
-                    item && (
-                      <a.p key={key} style={{ opacity }}>
-                        {description}
-                      </a.p>
-                    )
-                )}
+                <div className="project__description__inner">
+                  <AnimatedLine toggle={isActive} width={75} delay={1450} />
+                  {descriptionTransition.map(
+                    ({ item, key, props: { opacity, x } }) =>
+                      item && (
+                        <a.p
+                          key={key}
+                          style={{
+                            opacity,
+                            transform: x.interpolate(
+                              xVal => `translate3d(${xVal}px, 0px, 0px)`
+                            ),
+                          }}
+                        >
+                          {description}
+                        </a.p>
+                      )
+                  )}
+                </div>
               </div>
               <div className="project__scroll_indicator">
                 <svg xmlns="http://www.w3.org/2000/svg">
@@ -151,11 +161,11 @@ export default function Template({ data, path }) {
                           className="circle"
                           strokeDashoffset={props.offset}
                           d="
-                      M 50, 50
-                      m -49, 0
-                      a 49,49 0 1,0 98,0
-                      a 49,49 0 1,0 -98,0
-                      "
+                            M 50, 50
+                            m -49, 0
+                            a 49,49 0 1,0 98,0
+                            a 49,49 0 1,0 -98,0
+                          "
                         />
                       )
                   )}
@@ -181,10 +191,28 @@ export default function Template({ data, path }) {
                   toggle={isActive}
                   TextComponent={a.p}
                   text={date}
+                  delay={2100}
                 ></AnimatedCharacters>
               </div>
-
-              {frontmatter.client && (
+              <div className="project__scroll">
+                {scrollTextTransition.map(
+                  ({ item, key, props: { opacity, y } }) =>
+                    item && (
+                      <a.span
+                        key={key}
+                        style={{
+                          opacity,
+                          transform: y.interpolate(
+                            yVal => `translate3d(0px, ${yVal}px, 0px)`
+                          ),
+                        }}
+                      >
+                        Scroll down to learn more
+                      </a.span>
+                    )
+                )}
+              </div>
+              {/* {frontmatter.client && (
                 <div className="project__client">
                   <p>
                     {clientTextTransition.map(
@@ -205,7 +233,7 @@ export default function Template({ data, path }) {
                     )}
                   </p>
                   <p>
-                    {clientValueTransition.map(
+                    {scrollTextTransition.map(
                       ({ item, key, props: { opacity, y } }) =>
                         item && (
                           <a.span
@@ -223,7 +251,7 @@ export default function Template({ data, path }) {
                     )}
                   </p>
                 </div>
-              )}
+              )} */}
             </div>
           </div>
         </div>
@@ -270,18 +298,20 @@ const BlogTemplateInner = styled.div`
     top: 50%;
     transform: translateY(-50%);
     flex: 1 0 auto;
-    h2 {
+    h1 {
+      text-transform: uppercase;
+      -webkit-text-fill-color: rgba(0, 0, 0, 0);
+
+      -webkit-text-stroke-width: 2px;
+      -webkit-text-stroke-color: #fff;
       margin: 0px 0px;
     }
   }
 
   .project__scroll {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(50%);
     font-size: 1.4em;
-    font-family: "Castoro Italic", serif;
+    line-height: 3em;
+    font-family: "Modernist Regular", serif;
   }
 
   .project__scroll_indicator {
@@ -363,11 +393,20 @@ const BlogTemplateInner = styled.div`
     }
 
     .project__description {
-      p {
-        font-family: "Castoro Regular", serif;
-        color: #fff;
-        margin-top: 0px;
-        /* font-style: ; */
+      .project__description__inner {
+        display: flex;
+        align-items: center;
+        span {
+          background-color: #fff;
+        }
+        p {
+          margin-left: 100px;
+          font-family: "Castoro Italic", serif;
+          color: #fff;
+          margin-top: 0px;
+          margin: 0px 0px 0px 30px !important;
+          /* font-style: ; */
+        }
       }
     }
   }
