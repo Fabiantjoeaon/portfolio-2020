@@ -1,5 +1,6 @@
 ---
 title: "Chainels Homepage"
+order: 5
 tools:
   - "Gatsby"
   - "React"

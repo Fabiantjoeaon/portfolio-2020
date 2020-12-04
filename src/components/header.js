@@ -1,13 +1,13 @@
+import React, { useMemo } from "react";
 import { Link } from "gatsby";
 import PropTypes from "prop-types";
-import React from "react";
 import { useTransition, animated as a } from "react-spring";
 
 import styled from "styled-components";
 import { sleep } from "../utils";
-
 import { outerWidthSpacing } from "./styled/spacing";
-import { theme } from "./styled/theme";
+import { useWindowSize } from "../hooks";
+import { breakpoints, mobileBreakpoint } from "./styled/media";
 
 const Header = ({ siteTitle, loadingDone, path }) => {
   const transition = useTransition(loadingDone, null, {
@@ -24,6 +24,10 @@ const Header = ({ siteTitle, loadingDone, path }) => {
       y: 0,
     },
   });
+
+  const { width } = useWindowSize();
+  const isMobile = useMemo(() => width < mobileBreakpoint, [width]);
+
   return transition.map(
     ({ item, key, props: { opacity, y } }) =>
       item && (
@@ -39,16 +43,15 @@ const Header = ({ siteTitle, loadingDone, path }) => {
           <div className="header__inner">
             <Link to="/">
               <div className="header__left">
-                <span>FABIAN </span>
-                <span>TJOE A ON</span>
+                {isMobile ? <span>F T</span> : <span>Fabian Tjoe-A-On</span>}
               </div>
             </Link>
             <div className="header__pages">
-              <Link active={path === "/projects/"} to="/projects">
-                Selected work
-              </Link>
-              <Link active={path === "/about/"} to="/about">
+              <Link activeClassName={"active"} to="/about">
                 About me
+              </Link>
+              <Link activeClassName={"active"} to="/projects">
+                Selected work
               </Link>
             </div>
 
@@ -98,7 +101,7 @@ Header.defaultProps = {
 };
 
 const StyledHeader = styled(a.div)`
-  height: 100px;
+  height: ${({ theme }) => theme.navigationHeight.desktop};
   display: block;
   position: fixed;
   top: 0;
@@ -106,6 +109,10 @@ const StyledHeader = styled(a.div)`
   width: 100%;
   mix-blend-mode: difference;
   z-index: 1;
+
+  ${breakpoints.mobileDevices} {
+    height: ${({ theme }) => theme.navigationHeight.mobile};
+  }
 
   /* font-family: "Modernist Light", sans-serif; */
   .header__inner {
@@ -154,6 +161,21 @@ const StyledHeader = styled(a.div)`
           transform-origin: 0% 0%;
         }
       }
+
+      ${breakpoints.mobileDevices} {
+        justify-content: space-between;
+        width: 40%;
+        a {
+          font-size: 1.4em;
+          margin-right: 0px;
+        }
+      }
+      ${breakpoints.smPlus} {
+        width: 50%;
+      }
+      ${breakpoints.sm} {
+        width: 60%;
+      }
     }
 
     a {
@@ -175,13 +197,33 @@ const StyledHeader = styled(a.div)`
         height: 20px;
         margin-left: 30px;
       }
+
+      ${breakpoints.mobileDevices} {
+        display: none;
+      }
     }
 
     .header__left {
+      font-family: "Modernist Bold", sans-serif;
+      font-size: 1.4em;
+      /* .tjoe {
+        text-align: left;
+        width: 100%;
+        display: block;
+      }
+      .a-on {
+        display: flex;
+        justify-content: space-between;
+      } */
       span {
-        font-size: 1.2em;
+        font-size: 1em;
         letter-spacing: 1px;
-        /* display: block; */
+      }
+
+      ${breakpoints.mobileDevices} {
+        span {
+          font-size: 1.8em;
+        }
       }
     }
   }

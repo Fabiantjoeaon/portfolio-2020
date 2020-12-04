@@ -1,10 +1,10 @@
+import React from "react";
 import styled from "styled-components";
 import { innerWidthSpacing } from "./spacing";
+import { useWindowSize } from "../../hooks";
 
 export const Inner = styled.div`
   ${innerWidthSpacing};
-
-  min-height: 100vh;
 
   display: flex;
   /* align-items: center; */
@@ -12,6 +12,9 @@ export const Inner = styled.div`
   flex-flow: column nowrap;
 `;
 
-export const FullHeightInner = styled(Inner)`
-  height: 100vh;
-`;
+//
+export const FullHeightInner = ({ children }) => {
+  const { height } = useWindowSize();
+
+  return <Inner style={{ height: `${height}px` }}>{children}</Inner>;
+};

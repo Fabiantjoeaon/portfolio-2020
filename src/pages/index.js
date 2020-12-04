@@ -68,13 +68,8 @@ const AnimatedTextWrapper = styled.div`
 
   h1 {
     font-family: "Modernist Bold", sans-serif;
-    /* text-transform: uppercase; */
-    /* margin: 0px 0px 180px; */
-    margin: 0px;
-    /* -webkit-text-fill-color: rgba(0, 0, 0, 0);
 
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: #fff; */
+    margin: 0px;
   }
   .name-first {
     margin-right: 40px;
@@ -85,6 +80,15 @@ const AnimatedTextWrapper = styled.div`
       h2 {
         font-size: 2.5em;
       }
+    }
+  }
+  ${breakpoints.mobileDevices} {
+    h1 {
+      letter-spacing: 0px;
+    }
+
+    h2 {
+      font-family: "Castoro Italic", serif;
     }
   }
 `;

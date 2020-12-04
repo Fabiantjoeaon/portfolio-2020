@@ -1,5 +1,6 @@
 ---
 title: "Changeroo"
+order: 7
 tools:
   - "Node.js (w/ Express and Pug)"
   - "SQL (w/ bookshelf ORM)"

@@ -1,5 +1,6 @@
 ---
 title: "WebGL Experiments"
+order: 1
 tools:
   - "Three.js"
   - "Regl"

@@ -61,8 +61,6 @@ export function useFluidValue(
   return useMemo(() => {
     const valueDiff = maxValue - minValue;
     const screenWidthDiff = maxScreenWidth - minScreenWidth;
-    // calc( (${minFontSize} + ${stripUnit(diffBetweenFontSizes)} * ( 100vw - ${minScreenSize} ) / ${diffBetweenScreenSizes} ));
-    // calc( (1.2961572031209998rem + 1.8611773151999997 * ( 100vw - 37.5rem ) / 112.5 ))
 
     return clamp(
       minValue + valueDiff * ((windowWidth - minScreenWidth) / screenWidthDiff),

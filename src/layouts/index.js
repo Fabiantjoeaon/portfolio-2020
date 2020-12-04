@@ -16,7 +16,7 @@ import { Background } from "../components/Background/index";
 import { breakpoints } from "../components/styled/media";
 import { EffectComposer, Noise } from "react-postprocessing";
 import { sleep } from "../utils";
-import { useFluidValue } from "../hooks";
+import { useFluidValue, useWindowSize } from "../hooks";
 
 const Layout = ({ location, children, path }) => {
   // const data = useStaticQuery(graphql`
@@ -31,7 +31,9 @@ const Layout = ({ location, children, path }) => {
 
   //TODO: also layout transition betwene intro and wrapper
   const initializeRef = useRef(false);
-  const [loadingDone, setLoadingDone] = useState(false);
+  //TEMP:
+  const [loadingDone, setLoadingDone] = useState(true);
+  const { height } = useWindowSize();
 
   const transitionProps = {
     mode: "successive",
@@ -94,7 +96,7 @@ const Layout = ({ location, children, path }) => {
       {/* <PostProcessingCanvas /> */}
       <GlobalStyle></GlobalStyle>
 
-      <Intro loadingDone={loadingDone}>
+      <Intro height={height} loadingDone={loadingDone}>
         <div className="loader">
           <AnimatedCharacters
             TextComponent={a.h1}
@@ -178,7 +180,7 @@ const GlobalStyle = createGlobalStyle`
     margin: 0;
     padding: 0;
     overflow: hidden;
-    -webkit-font-smoothing: antialiased;
+    /* -webkit-font-smoothing: antialiased; */
   }
 
   html {
@@ -239,7 +241,7 @@ const Intro = styled.div`
   top: 0;
   left: 0;
   width: 100vw;
-  height: 100vh;
+  height: ${({ height }) => height}px;
   z-index: 3;
 
   background-color: #333333;
@@ -259,6 +261,7 @@ const Intro = styled.div`
 
     ${breakpoints.mobileDevices} {
       font-size: 0.4em !important;
+      letter-spacing: 0px;
     }
   }
 `;
@@ -278,6 +281,10 @@ const LoaderLine = styled(a.span)`
   transform: scaleX(0);
   width: 70vw;
   height: 3px;
+
+  ${breakpoints.mobileDevices} {
+    top: 65%;
+  }
 `;
 
 export default Layout;

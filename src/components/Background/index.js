@@ -86,7 +86,7 @@ function Plane({
   }, [scrolled]);
 
   const [{ pos }, setPlanePos] = useSpring(() => ({
-    pos: [0, shouldTransition ? -1 : 0, z],
+    pos: [0, shouldTransition ? -2 : 0, z],
     config: {
       friction: 200,
       tenstion: 180,
@@ -195,20 +195,34 @@ function Plane({
   }, [isActiveOnHome, scrolled]);
 
   const handler = useCallback(
-    ({ xy: [cx, cy], previous: [px, py], memo = [0, 0], dragging }) => {
+    ({
+      xy: [cx, cy],
+      previous: [px, py],
+      memo = [0, 0],
+      movement,
+      moving,
+      dragging,
+      delta,
+      down,
+    }) => {
       if (!shouldMove) return;
+      const [dX, dY] = delta;
+      const [mX, mY] = movement;
+      const madeDistance = dX > 0 || dY > 0;
+      let [newX, newY] = memo;
 
-      const newX =
-        memo && memo.length
-          ? clamp(((memo[0] + cx - px) / 150) * -1, -2, 2)
-          : clamp(((cx - px) / 150) * -1, 0, 2);
-      const newY =
-        memo && memo.length
-          ? clamp((memo[1] + cy - py) / 150, -2, 2)
-          : clamp((cy - py) / 150, 0, 2);
+      if (moving && madeDistance) {
+        newX += clamp(((cx - px) / 400) * -1, 0, 2);
+        newY += clamp((cy - py) / 400, 0, 2);
+      }
+      if (dragging && !moving && madeDistance) {
+        console.log(mX, mY);
+        newX += down ? mX / 400 : 0;
+        newY += down ? mY / 400 : 0;
+      }
 
       setPlanePos({
-        pos: [dragging ? newX * 6 : newX, dragging ? newY * 6 : newY, z],
+        pos: [newX, newY, z],
       });
 
       return [newX, newY];
@@ -260,7 +274,7 @@ function Plane({
   });
 
   return (
-    <a.mesh ref={mesh} position={[0, 0, z]}>
+    <a.mesh ref={mesh} position={[0, shouldTransition ? -0.2 : 0, z]}>
       <planeGeometry
         args={[...planeDimensions, 1, 1]}
         attach="geometry"

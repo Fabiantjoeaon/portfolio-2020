@@ -19,7 +19,10 @@ export default function ProjectPage({
   const setColor = useStore(state => state.setColor);
   const clickLock = useRef(false);
   const isActive = useRouteActive(path, "/projects/");
-  const items = useMemo(() => (isActive ? pages : []), [isActive]);
+  const items = useMemo(
+    () => (isActive ? pages.sort((a, b) => a.order - b.order) : []),
+    [isActive]
+  );
   const transition = useTransition(items, item => item.node.frontmatter.slug, {
     from: {
       opacity: 0,
@@ -122,6 +125,12 @@ const Projects = styled.ul`
   height: 100%;
   margin: 0px;
 
+  ${breakpoints.mobileDevices} {
+    width: 100%;
+    margin-top: 50px;
+    height: 75%;
+  }
+
   li {
     list-style-type: none;
     text-align: right;
@@ -130,7 +139,7 @@ const Projects = styled.ul`
       font-size: 3.5em;
       color: #fff;
       text-decoration: none;
-      font-family: "Modernist Bold", serif;
+      font-family: "Modernist Regular", serif;
 
       /* font-family: "Castoro Regular", serif; */
       /* -webkit-text-fill-color: rgba(0, 0, 0, 0);
@@ -143,6 +152,9 @@ const Projects = styled.ul`
 
       ${breakpoints.mdPlus} {
         font-size: 2.5em;
+      }
+      ${breakpoints.mobileDevices} {
+        font-size: 3em;
       }
     }
 
@@ -191,8 +203,9 @@ const StyledWork = styled.div`
   h1 {
     text-transform: uppercase;
     -webkit-text-fill-color: rgba(0, 0, 0, 0);
+    letter-spacing: 1px;
 
-    -webkit-text-stroke-width: 2px;
+    -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #fff;
     margin: 0px;
   }
@@ -209,5 +222,11 @@ const StyledWork = styled.div`
     h1 {
       font-size: 4em;
     }
+  }
+
+  ${breakpoints.mobileDevices} {
+    height: 70%;
+    flex-flow: column nowrap;
+    align-items: flex-start;
   }
 `;

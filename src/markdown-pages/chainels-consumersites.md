@@ -1,5 +1,6 @@
 ---
-title: "Chainels Consumersites"
+title: "Chainels consumer sites"
+order: 6
 tools:
   - "Next.js"
   - "React"

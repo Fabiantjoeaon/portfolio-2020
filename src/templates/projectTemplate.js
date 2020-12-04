@@ -4,11 +4,14 @@ import { graphql } from "gatsby";
 import { Inner } from "../components/styled/Inner";
 import styled, { createGlobalStyle } from "styled-components";
 
-import { useRouteActive } from "../hooks";
+import {
+  breakpoints,
+  mobileBreakpoint,
+  widthMap,
+} from "../components/styled/media";
+import { useRouteActive, useFluidValue } from "../hooks";
 import { AnimatedCharacters } from "../components/AnimatedText";
-
 import { sleep } from "../utils";
-
 import { useStore } from "../BackgroundColorStore";
 import AnimatedLine from "../components/AnimatedLine";
 
@@ -77,21 +80,6 @@ export default function Template({ data, path }) {
     },
   });
 
-  const clientTextTransition = useTransition(isActive, null, {
-    from: {
-      y: 20,
-      opacity: 0,
-    },
-    enter: () => async next => {
-      await sleep(1800);
-      next({ y: 0, opacity: 1 });
-    },
-    leave: {
-      y: 20,
-      opacity: 0,
-    },
-  });
-
   const scrollTextTransition = useTransition(isActive, null, {
     from: {
       y: 20,
@@ -122,7 +110,7 @@ export default function Template({ data, path }) {
               toggle={isActive}
               TextComponent={a.h1}
               breakConditions={{
-                width: 1700,
+                width: widthMap.lg,
                 characterLength: 20,
               }}
             />
@@ -192,6 +180,10 @@ export default function Template({ data, path }) {
                   TextComponent={a.p}
                   text={date}
                   delay={2100}
+                  breakConditions={{
+                    character: "/",
+                    width: mobileBreakpoint,
+                  }}
                 ></AnimatedCharacters>
               </div>
               <div className="project__scroll">
@@ -212,46 +204,6 @@ export default function Template({ data, path }) {
                     )
                 )}
               </div>
-              {/* {frontmatter.client && (
-                <div className="project__client">
-                  <p>
-                    {clientTextTransition.map(
-                      ({ item, key, props: { opacity, y } }) =>
-                        item && (
-                          <a.strong
-                            key={key}
-                            style={{
-                              opacity,
-                              transform: y.interpolate(
-                                yVal => `translate3d(0px, ${yVal}px, 0px)`
-                              ),
-                            }}
-                          >
-                            Client:
-                          </a.strong>
-                        )
-                    )}
-                  </p>
-                  <p>
-                    {scrollTextTransition.map(
-                      ({ item, key, props: { opacity, y } }) =>
-                        item && (
-                          <a.span
-                            key={key}
-                            style={{
-                              opacity,
-                              transform: y.interpolate(
-                                yVal => `translate3d(0px, ${yVal}px, 0px)`
-                              ),
-                            }}
-                          >
-                            {frontmatter.client}
-                          </a.span>
-                        )
-                    )}
-                  </p>
-                </div>
-              )} */}
             </div>
           </div>
         </div>
@@ -275,6 +227,7 @@ export const pageQuery = graphql`
         tools
         client
         date
+        order
       }
     }
   }
@@ -290,21 +243,46 @@ const BlogTemplateInner = styled.div`
     width: 100%;
     height: 100vh;
     position: relative;
-    /* margin-bottom: 200px; */
+
+    ${breakpoints.mobileDevices} {
+      // nav height
+      height: ${({ theme }) =>
+        `calc(100vh - ${theme.navigationHeight.mobile})`};
+      margin-top: ${({ theme }) => theme.navigationHeight.mobile};
+      justify-content: space-between;
+    }
   }
 
   .project__title {
     position: absolute; /* new */
     top: 50%;
     transform: translateY(-50%);
+
     flex: 1 0 auto;
     h1 {
       text-transform: uppercase;
       -webkit-text-fill-color: rgba(0, 0, 0, 0);
 
-      -webkit-text-stroke-width: 2px;
+      -webkit-text-stroke-width: 1px;
       -webkit-text-stroke-color: #fff;
+      letter-spacing: 1px;
       margin: 0px 0px;
+    }
+
+    ${breakpoints.mobileDevices} {
+      position: relative;
+      transform: translateY(0px);
+      flex: 0;
+      top: 0%;
+      margin-top: 200px;
+
+      h1 {
+        font-size: 4.5em;
+      }
+    }
+
+    ${breakpoints.smPlus} {
+      margin-top: 70px;
     }
   }
 
@@ -312,6 +290,11 @@ const BlogTemplateInner = styled.div`
     font-size: 1.4em;
     line-height: 3em;
     font-family: "Modernist Regular", serif;
+    text-align: right;
+
+    ${breakpoints.mobileDevices} {
+      display: none;
+    }
   }
 
   .project__scroll_indicator {
@@ -339,6 +322,13 @@ const BlogTemplateInner = styled.div`
     flex-flow: row wrap;
     flex: 0.4;
 
+    ${breakpoints.lg} {
+      flex: 0.3;
+    }
+    ${breakpoints.mobileDevices} {
+      flex: 0.85;
+    }
+
     .project__meta__top,
     .project__meta__bottom {
       width: 100%;
@@ -356,11 +346,21 @@ const BlogTemplateInner = styled.div`
       }
     }
 
+    ${breakpoints.mobileDevices} {
+      .project__meta__top {
+        flex-flow: column nowrap;
+      }
+    }
+
     .project__meta__bottom {
       align-items: flex-end;
       padding-bottom: 50px;
       p {
         margin: 0px;
+      }
+
+      ${breakpoints.mobileDevices} {
+        padding-bottom: 30px;
       }
 
       .project__date {
@@ -371,6 +371,14 @@ const BlogTemplateInner = styled.div`
           line-height: 1.1em;
           font-family: "Modernist Bold", sans-serif;
           vertical-align: bottom;
+        }
+
+        ${breakpoints.mdPlus} {
+          font-size: 3em;
+        }
+
+        ${breakpoints.mobileDevices} {
+          font-size: 2.5em;
         }
       }
 

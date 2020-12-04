@@ -26,7 +26,7 @@ const colors = {
     intensity: 0.5,
   },
   chainels_homepage: {
-    value: "#0000FF",
+    value: "#fbff00",
     intensity: 0.5,
   },
   webgl_experiments: {
