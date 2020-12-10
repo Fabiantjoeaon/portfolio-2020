@@ -13,6 +13,7 @@ import { useSpring, animated as a, config } from "@react-spring/three";
 import { Canvas, useThree, useFrame } from "react-three-fiber";
 import { useGesture } from "react-use-gesture";
 
+import { mobileBreakpoint } from "../styled/media";
 import { theme } from "../styled/theme";
 import { useWindowSize, useRouteActive, usePrevious } from "../../hooks";
 import { clamp, sleep } from "../../utils";
@@ -43,6 +44,7 @@ function Plane({
     state.setColor,
   ]);
   const { value, intensity } = color;
+
   const threeColor = new THREE.Color();
 
   const isActiveOnHome = useRouteActive(path, "/");
@@ -132,6 +134,7 @@ function Plane({
     // TODO: Make this more manage-able
     async function animate() {
       if (isActiveOnHome) {
+        setColor("default");
         if (shouldTransition) {
           await sleep(loadingDone ? 600 : theme.initialLoadingTime + 2000);
           setPlanePos({
@@ -194,6 +197,9 @@ function Plane({
     animate();
   }, [isActiveOnHome, scrolled]);
 
+  const moveDivider = shouldMove ? 400 : 1000;
+  const dragDivider = shouldMove ? 170 : 250;
+
   const handler = useCallback(
     ({
       xy: [cx, cy],
@@ -205,20 +211,18 @@ function Plane({
       delta,
       down,
     }) => {
-      if (!shouldMove) return;
+      // if (!shouldMove) return;
       const [dX, dY] = delta;
       const [mX, mY] = movement;
       const madeDistance = dX > 0 || dY > 0;
       let [newX, newY] = memo;
 
-      if (moving && madeDistance) {
-        newX += clamp(((cx - px) / 400) * -1, 0, 2);
-        newY += clamp((cy - py) / 400, 0, 2);
-      }
-      if (dragging && !moving && madeDistance) {
-        console.log(mX, mY);
-        newX += down ? mX / 400 : 0;
-        newY += down ? mY / 400 : 0;
+      if (moving && !dragging && madeDistance) {
+        newX += clamp(((cx - px) / moveDivider) * -1, 0, 2);
+        newY += clamp((cy - py) / moveDivider, 0, 2);
+      } else if (dragging) {
+        newX += ((cx - px) / dragDivider) * -1;
+        newY += (cy - py) / dragDivider;
       }
 
       setPlanePos({
@@ -230,7 +234,10 @@ function Plane({
     [pos, setPlanePos]
   );
 
-  useGesture({ onMove: handler, onDrag: handler }, { domTarget: window });
+  useGesture(
+    { onMove: handler, onDrag: handler },
+    { domTarget: window, drag: { threshold: 10 } }
+  );
 
   const planeDimensions = useMemo(() => {
     const distance = defaultCameraZ - z;
@@ -244,12 +251,16 @@ function Plane({
       mesh.current.geometry.verticesNeedUpdate = true;
       mesh.current.geometry.uvsNeedUpdate = true;
     }
-    const a = aspect < 0.9 ? aspect : 0;
+    const heightClip = aspect < 0.9 && shouldTransition ? aspect : 0;
+    const widthClip = aspect > 1.8 && shouldTransition ? aspect : 0;
 
-    return [planeWidth / divisor.width, planeHeight / divisor.height + a];
+    return [
+      planeWidth / divisor.width,
+      planeHeight / divisor.height + heightClip,
+    ];
   }, [windowWidth, windowHeight, defaultCameraZ]);
 
-  useFrame(({ clock, mouse }) => {
+  useFrame(({ clock }) => {
     if (mesh.current) {
       const p = pos?.get();
       mesh.current.material.uniforms["uMouse"].value.x = p[0];
@@ -268,13 +279,18 @@ function Plane({
       mesh.current.material.uniforms["uBackgroundColor"].value = threeColor.set(
         bgColor?.get()
       );
-
-      // console.log(mesh.current.material.uniforms["uUseColor"].value);
     }
   });
 
   return (
-    <a.mesh ref={mesh} position={[0, shouldTransition ? -0.2 : 0, z]}>
+    <a.mesh
+      ref={mesh}
+      position={[
+        0,
+        shouldTransition && windowWidth < mobileBreakpoint ? -0.2 : 0,
+        z,
+      ]}
+    >
       <planeGeometry
         args={[...planeDimensions, 1, 1]}
         attach="geometry"

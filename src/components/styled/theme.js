@@ -1,15 +1,11 @@
 const settings = {
   maxInnerWidth: {
-    xl: "1550px",
-    lg: "1260px",
-
+    xl: "85%",
+    lg: "1170px",
     mdPlus: "1100px",
     mdMed: "950px",
-    // mdMin: "920px",
-    // md: "900px",
     md: "85%",
     mdMin: "85%",
-
     sm: "85%",
   },
 
@@ -33,7 +29,7 @@ const settings = {
     desktop: "100px",
     mobile: "80px",
   },
-  initialLoadingTime: 6000,
+  initialLoadingTime: 1000,
 
   easing1: "cubic-bezier(0.666, 0, 0.237, 1)",
 };

@@ -1,5 +1,5 @@
 export const widthMap = {
-  xl: 2000,
+  xl: 2400,
   lg: 1720,
   mdPlus: 1380,
   mdMed: 1260,

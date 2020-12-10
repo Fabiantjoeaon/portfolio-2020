@@ -17,12 +17,13 @@ export default function ProjectPage({
   },
 }) {
   const setColor = useStore(state => state.setColor);
-  const clickLock = useRef(false);
+  const clickLock = useRef(true);
   const isActive = useRouteActive(path, "/projects/");
-  const items = useMemo(
-    () => (isActive ? pages.sort((a, b) => a.order - b.order) : []),
-    [isActive]
+  const sortedProjects = pages.sort(
+    (a, b) => a.node.frontmatter.order - b.node.frontmatter.order
   );
+  const items = useMemo(() => (isActive ? sortedProjects : []), [isActive]);
+
   const transition = useTransition(items, item => item.node.frontmatter.slug, {
     from: {
       opacity: 0,
@@ -40,8 +41,11 @@ export default function ProjectPage({
   });
 
   useEffect(() => {
-    if (clickLock.current) clickLock.current = false;
-    if (!clickLock.current) setColor("default");
+    setColor("default");
+
+    setTimeout(() => {
+      if (clickLock.current) clickLock.current = false;
+    }, 2200);
   });
 
   return (
@@ -90,7 +94,7 @@ export default function ProjectPage({
                     }}
                     to={item.node.frontmatter.slug}
                   >
-                    {item.node.frontmatter.title}
+                    {item.node.frontmatter.title.toLowerCase()}
                   </Link>
                 </a.li>
               )
@@ -109,6 +113,11 @@ export const pageQuery = graphql`
           frontmatter {
             slug
             title
+            description
+            tools
+            client
+            date
+            order
           }
         }
       }
@@ -136,7 +145,7 @@ const Projects = styled.ul`
     text-align: right;
 
     a {
-      font-size: 3.5em;
+      font-size: 3.2em;
       color: #fff;
       text-decoration: none;
       font-family: "Modernist Regular", serif;
@@ -199,15 +208,21 @@ const StyledWork = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 60%;
+
   h1 {
     text-transform: uppercase;
-    -webkit-text-fill-color: rgba(0, 0, 0, 0);
-    letter-spacing: 1px;
 
+    letter-spacing: 1px;
+    -webkit-text-fill-color: rgba(0, 0, 0, 0);
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: #fff;
     margin: 0px;
+  }
+
+  height: 60%;
+
+  ${breakpoints.xl} {
+    height: 50%;
   }
 
   ${breakpoints.lg} {
@@ -228,5 +243,10 @@ const StyledWork = styled.div`
     height: 70%;
     flex-flow: column nowrap;
     align-items: flex-start;
+
+    h1 {
+      font-style: "Modernist Light", sans-serif !important;
+      -webkit-text-stroke-width: 1px;
+    }
   }
 `;

@@ -8,7 +8,7 @@ tools:
 description: "Portal for a web-based tool to handle social missions"
 slug: "/projects/changeroo"
 client: "Changeroo B.V."
-date: "Jan / Mar 2018"
+date: "Jun / Oct 2017"
 attachments:
   - "./assets/changeroo_old-portal.png"
   - "./assets/changeroo_profile.png"
@@ -18,7 +18,9 @@ attachments:
 <div class="project--changeroo content__wrapper">
 <div class="content__left">
 
-Changeroo was my first mid-sized project, though never worked on a small to medium sized codebase, I decided to take on the challenge to build the first version of the portal of my clients web app. Changeroo is mainly a design and visualisation tool for <a target="_blank" href="https://en.wikipedia.org/wiki/Theory_of_change">Theories of Change</a>.
+### Mid-sized codebase
+
+As my first mid-sized project, I decided to take on the challenge to build the first version of the portal of my clients web app. Changeroo is mainly a design and visualisation tool for <a target="_blank" href="https://en.wikipedia.org/wiki/Theory_of_change">Theories of Change</a>.
 
 </div>
 
@@ -34,18 +36,20 @@ Changeroo was my first mid-sized project, though never worked on a small to medi
 <div class="project--changeroo content__wrapper">
 <div class="content__left">
 
+### Collaboration
+
 The portal of this web app was decoupled from the web interface that provides the functionality that lets you visualise a Theory of Change, which was build by <a href="https://www.uncinc.nl/en/" target="_blank">Unc Inc</a>, whom I had to work with to manage some functionality.
 The portal was my full responsibility, so I had to make most programming design choices by myself, with the help and permission of my client.
 
 </div>
 <div class="content__right">
 
-I was responsible for:
+Some of my responsibilities were:
 
 - \- Communication and passing on user roles to the Web Interface through <a href="https://firebase.google.com/">Google Firebase</a>.
 - \- Registration and authentication (both local and with JWT for use with Firebase).
 - \- Managing stakeholders, organisations, and the data that is needed to create a Theory of Change.
-- \- Build the ToC Academy, a page where users could read in on how to use the application, and important papers regarding change. This was achieved using an external Wordpress website as a JSON API, pulling and converting this data in through my back-end, and then caching it with Redis.
+- \- Build the ToC Academy, a page where users could read in on how to use the application, and important papers regarding change, which was CMS-managed.
 
 </div>
 </div>
@@ -80,11 +84,10 @@ A beta version of the portal had already been build in Ruby on Rails. I have dec
 
 <div class="content__right">
 
-I am not a designer however, and because a new interface design wasn't really my job, I have decided to freestyle it a bit, falling back onto the current design options when time was of the essence. This is what the current version of the portal looks like:
+During development there was no budget for a designer, so I had to freestyle some design choices during development as we were not happy with the current design. This is what the updates version of the portal looked like:
+Visit Changeroo <a href="https://changeroo.com">here</a>.
 
 </div>
 </div>
 
 <img src="./assets/changeroo_organisations.png" />
-
-With ~ 75 routes, I consider this a medium sized project, that I have handed over succesfully to my client, and enjoyed working on. You can visit Changeroo <a href="https://changeroo.com">here</a>.

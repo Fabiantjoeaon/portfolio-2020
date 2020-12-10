@@ -32,7 +32,7 @@ const Layout = ({ location, children, path }) => {
   //TODO: also layout transition betwene intro and wrapper
   const initializeRef = useRef(false);
   //TEMP:
-  const [loadingDone, setLoadingDone] = useState(true);
+  const [loadingDone, setLoadingDone] = useState(false);
   const { height } = useWindowSize();
 
   const transitionProps = {
@@ -181,6 +181,9 @@ const GlobalStyle = createGlobalStyle`
     padding: 0;
     overflow: hidden;
     /* -webkit-font-smoothing: antialiased; */
+     /* -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility; */
   }
 
   html {
@@ -211,9 +214,9 @@ const GlobalStyle = createGlobalStyle`
     font-size: 6em;
 
 
-    ${breakpoints.mdPlus} {
+    /* ${breakpoints.mdPlus} {
       font-size: 4.5em;
-    }
+    } */
   }
 
   h2 {

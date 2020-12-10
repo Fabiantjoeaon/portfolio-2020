@@ -101,23 +101,23 @@ float seed = 12.9898;
 
 void main() {
     
-  vec2 newUv = mix(vec2(0.0), uMouse / vec2(2.0), uShouldTransition);
-  
-  float shade = pattern(vUv + newUv);
-  vec4 fbmColor = mix(vec4(shade) - .1, vec4(colormap(shade).rgb, shade), uHasColor);
-
-  vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
+    vec2 newUv = mix(vec2(0.0), uMouse / vec2(2.0), uShouldTransition);
     
-  float p = mix(-smoothness, 1.0 + smoothness, uAlpha);
-  float lower = p - smoothness;
-  float higher = p + smoothness; 
-  float q = smoothstep(lower, higher, shade);
+    float shade = pattern(vUv + newUv);
+    vec4 fbmColor = mix(vec4(shade) - .1, vec4(colormap(shade).rgb, shade), uHasColor);
 
-  vec4 finalColor = mix(fbmColor, transparent, 0.0 + q);
+    vec4 transparent = vec4(0.0, 0.0, 0.0, 0.0);
+        
+    float p = mix(-smoothness, 1.0 + smoothness, uAlpha);
+    float lower = p - smoothness;
+    float higher = p + smoothness; 
+    float q = smoothstep(lower, higher, shade);
 
-  if (finalColor.a <= 0.0) {
-    discard;  
-  }
+    vec4 finalColor = mix(fbmColor, transparent, 0.0 + q);
+
+    if (finalColor.a <= 0.0) {
+        discard;  
+    }
 
     gl_FragColor = mix(
         mix(

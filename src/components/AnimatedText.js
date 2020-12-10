@@ -27,12 +27,24 @@ export function AnimatedCharacters({
   breakConditions,
 }) {
   const { width } = useWindowSize();
-  const shouldBreak = useMemo(() => {
-    if (!breakConditions || !breakConditions.width) return false;
-    // const characterAmount = text.replace(" ", "").split("").length;
+
+  /**
+   * Default break on every whitespace
+   */
+  const shouldBreakOnEveryWhitespace = useMemo(() => {
+    if (!breakConditions || breakConditions?.character) return false;
+    const widthDiff = width - breakConditions.width;
+    return widthDiff < 0;
+  }, [breakConditions, width]);
+
+  /**
+   * Break on a specific character
+   */
+  const breakCharacterIndex = useMemo(() => {
+    if (!breakConditions?.character) return null;
     const widthDiff = width - breakConditions.width;
 
-    return widthDiff < 0;
+    return widthDiff < 0 ? text.indexOf(breakConditions.character) + 1 : null;
   }, [breakConditions, width]);
 
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 });
@@ -88,13 +100,20 @@ export function AnimatedCharacters({
   return (
     <CharacterWrapper className="animated-title" style={{ ...containerStyle }}>
       {transition.map(
-        ({ item, key, props: { transformX, transformY, opacity, skew } }) => {
+        (
+          { item, key, props: { transformX, transformY, opacity, skew } },
+          i
+        ) => {
+          const shouldBreak =
+            shouldBreakOnEveryWhitespace || i === breakCharacterIndex;
+
           return item && item.character === " " ? (
             <TextComponent
               style={{
                 display: shouldBreak ? "block" : "inline",
                 height: shouldBreak ? "0px" : "auto",
               }}
+              key={key}
             >
               &nbsp;
             </TextComponent>
@@ -105,6 +124,7 @@ export function AnimatedCharacters({
                 height: "auto",
                 overflow: animateFromOverflow ? "hidden" : "inherit",
               }}
+              key={key}
             >
               <TextComponent
                 key={key}
@@ -209,6 +229,7 @@ export function AnimatedParagraph({
 
 const CharacterWrapper = styled.div`
   display: inline;
+
   * {
     display: inline-block;
   }

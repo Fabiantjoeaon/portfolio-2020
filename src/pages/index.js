@@ -24,8 +24,8 @@ const IndexPage = ({ path, loadingDone }) => {
   const setColor = useStore(state => state.setColor);
 
   useLayoutEffect(() => {
-    setColor("default");
-  });
+    isActive && setColor("default");
+  }, [isActive]);
 
   return (
     <FullHeightInner>
@@ -84,7 +84,8 @@ const AnimatedTextWrapper = styled.div`
   }
   ${breakpoints.mobileDevices} {
     h1 {
-      letter-spacing: 0px;
+      letter-spacing: -1px;
+      font-family: "Modernist Bold", sans-serif;
     }
 
     h2 {
@@ -98,8 +99,9 @@ const StyledIndex = styled.div`
   height: 65%;
   flex-flow: column nowrap;
   justify-content: space-between;
-  width: 90%;
+
   margin: 0 auto;
+  width: 85%;
 
   .animated-paragraph {
     align-self: flex-end;
@@ -113,6 +115,7 @@ const StyledIndex = styled.div`
   }
 
   ${breakpoints.mobileDevices} {
+    margin-top: 30px;
     width: 80%;
     height: 75%;
   }
