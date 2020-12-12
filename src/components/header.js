@@ -6,10 +6,11 @@ import { useTransition, animated as a } from "react-spring";
 import styled from "styled-components";
 import { sleep } from "../utils";
 import { outerWidthSpacing } from "./styled/spacing";
-import { useWindowSize } from "../hooks";
+import { useRouteActive, useWindowSize } from "../hooks";
 import { breakpoints, mobileBreakpoint } from "./styled/media";
 
 const Header = ({ siteTitle, loadingDone, path }) => {
+  const isOnProjects = useRouteActive(path, "projects", true);
   const transition = useTransition(loadingDone, null, {
     from: {
       opacity: 0,
@@ -32,8 +33,10 @@ const Header = ({ siteTitle, loadingDone, path }) => {
     ({ item, key, props: { opacity, y } }) =>
       item && (
         <StyledHeader
+          isOnProjects={isOnProjects}
           style={{
             opacity,
+
             transform: y.interpolate(
               yVal => `translate3d(0px, ${yVal}px, 0px)`
             ),
@@ -107,7 +110,8 @@ const StyledHeader = styled(a.div)`
   top: 0;
   left: 0;
   width: 100%;
-  mix-blend-mode: difference;
+  mix-blend-mode: ${({ isOnProjects }) =>
+    isOnProjects === true ? "difference" : "none"};
   z-index: 1;
 
   ${breakpoints.mobileDevices} {

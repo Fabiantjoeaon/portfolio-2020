@@ -18,7 +18,7 @@ import AnimatedLine from "../components/AnimatedLine";
 export default function Template({ data, path }) {
   const { markdownRemark } = data;
   const {
-    frontmatter: { description, title, date, ...frontmatter },
+    frontmatter: { description, title, date },
     html,
   } = markdownRemark;
 
@@ -26,7 +26,7 @@ export default function Template({ data, path }) {
 
   useEffect(() => {
     setColor(path.replace("/projects/", "").replaceAll("-", "_"));
-  });
+  }, []);
 
   const isActive = useRouteActive(path, "projects", true);
 
@@ -512,22 +512,43 @@ const GeneralPostStyling = createGlobalStyle`
       justify-content: space-between;
       margin: 100px 0px;
 
+      &.no-margin {
+        margin: 0px 0px;
+      }
+
+      .gatsby-video-aspect-ratio {
+        /* width: 70%; */
+        max-width: 1200px;
+        width: 100%;
+        margin: 0 auto;
+
+        ${breakpoints.mobileDevices} {
+          max-width:none;
+        }
+      }
+      video {
+        /* height: 100% !important;
+        margin: 50px 0px; */
+        width: 100%;
+        height: 100%; 
+      }
+
       .gatsby-resp-image-wrapper {
           width: 100%;
           max-width: 1200px;
       }
 
       &.project--webgl {
-    
         margin: 200px 0px;
-    
       }
-
-      
 
       .content__left,
       .content__right {
         width: 40%;
+
+        .gatsby-video-aspect-ratio  {
+          max-width: none;
+        }
 
         &.align-right {
           text-align: right;
@@ -535,10 +556,9 @@ const GeneralPostStyling = createGlobalStyle`
 
         &.vert-align {
           display: flex;
-          align-items: center;
-
-          
+          align-items: center;       
         }
+
         &.w-10 {
           width: 10%;
         }
@@ -567,7 +587,6 @@ const GeneralPostStyling = createGlobalStyle`
             max-width: 1000px !important;
             margin-right: 0px;
           }
-           
         }
       }      
   }
@@ -597,7 +616,15 @@ const GeneralPostStyling = createGlobalStyle`
 
   p, .content__wrapper {
     /* font-size: 1.5em; */
-      line-height: 1.6em;
+      line-height: 1.65em;
+      ${breakpoints.mobileDevices} {
+        line-height: 1.95em;
+      }
+  }
+
+  p {
+    font-family: "Castoro Regular", sans-serif;
+    font-size: 1.3em;
   }
 
   blockquote {
@@ -635,6 +662,11 @@ const GeneralPostStyling = createGlobalStyle`
   .tools {
     width: 100%;
     margin: 190px 0px;
+
+    ${breakpoints.mobileDevices} {
+      margin: 50px 0px;
+    }
+
     ul {
       padding-left: 0px;
       li {
@@ -653,6 +685,10 @@ const GeneralPostStyling = createGlobalStyle`
     
     .content__wrapper {
       flex-flow: column-reverse nowrap;
+
+    &.project--worldview {
+      margin: 30px 0px;
+    }
 
       &.project--webgl {
         margin: 100px 0px; 

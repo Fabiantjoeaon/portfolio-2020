@@ -9,11 +9,6 @@ description: "Story-like cards to show off your activities"
 slug: "/projects/relive-cards"
 client: "Relive B.V."
 date: "May 2018 / Nov 2018"
-attachments:
-  - "./assets/relive-cards_card-blue.png"
-  - "./assets/relive-cards_card-pink.png"
-  - "./assets/relive-cards_final.mov"
-  - "./assets/relive-cards_concept.mov"
 ---
 
 <div class="project--cards content__wrapper">
@@ -45,17 +40,20 @@ important statistics of your ride.
 </div>
 
 <div class="project--cards content__wrapper">
-<div class="content__left">
+<div class="content__left align-center">
 
-### Shareable interactions
+### Motion
 
-<video width="320" height="240" autoplay>
-  <source src="./assets/relive-cards_final.mov" />
-</video>
+After lots of iterations with different motions and easings I prototyped a first version along with the in-house designer, where-as the design
+of the card mostly changed during development, where choices were made based on technical findings and possible limitations. <br/><br/>
+
+Afterwards we ended up with a better version compared to the initial design shown above, that gave more context to the individual statistics instead of just being random shapes with linear animations.<br/> This design was stress tested with different forms of activities (hikes, runs, rides), data, and colors.
 
 </div>
 
-<div class="content__right">
+<div class="content__right align-right ">
+
+![](./assets/relive-cards_final.mp4)
 
 </div>
 </div>

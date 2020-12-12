@@ -9,10 +9,6 @@ description: "Portal for a web-based tool to handle social missions"
 slug: "/projects/changeroo"
 client: "Changeroo B.V."
 date: "Jun / Oct 2017"
-attachments:
-  - "./assets/changeroo_old-portal.png"
-  - "./assets/changeroo_profile.png"
-  - "./assets/changeroo_organisations.png"
 ---
 
 <div class="project--changeroo content__wrapper">

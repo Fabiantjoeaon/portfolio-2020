@@ -5,6 +5,10 @@ const colors = {
     value: "#1F1F1F",
     intensity: 0,
   },
+  about: {
+    value: "#ffa200",
+    intensity: 1.0,
+  },
   relive_worldview: {
     value: "#437844",
     intensity: 0.5,

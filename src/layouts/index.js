@@ -32,7 +32,7 @@ const Layout = ({ location, children, path }) => {
   //TODO: also layout transition betwene intro and wrapper
   const initializeRef = useRef(false);
   //TEMP:
-  const [loadingDone, setLoadingDone] = useState(false);
+  const [loadingDone, setLoadingDone] = useState(true);
   const { height } = useWindowSize();
 
   const transitionProps = {
@@ -121,7 +121,7 @@ const Layout = ({ location, children, path }) => {
       </Intro>
       <Wrapper>
         <StyledLayout>
-          <Header loadingDone={loadingDone}></Header>
+          <Header path={path} loadingDone={loadingDone}></Header>
           <Background loadingDone={loadingDone} path={path} />
 
           <TransitionProvider {...transitionProps}>

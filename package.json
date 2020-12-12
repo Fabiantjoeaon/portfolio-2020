@@ -17,6 +17,7 @@
     "gatsby-plugin-styled-components": "^3.5.0",
     "gatsby-plugin-transitions": "^2.1.7",
     "gatsby-remark-images": "^3.6.0",
+    "gatsby-remark-videos": "^0.3.5",
     "gatsby-source-filesystem": "^2.6.1",
     "gatsby-transformer-remark": "^2.11.0",
     "gatsby-transformer-sharp": "^2.6.0",

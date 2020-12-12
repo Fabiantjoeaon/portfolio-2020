@@ -41,12 +41,12 @@ export default function ProjectPage({
   });
 
   useEffect(() => {
-    setColor("default");
+    if (isActive) setColor("default");
 
     setTimeout(() => {
       if (clickLock.current) clickLock.current = false;
     }, 2200);
-  });
+  }, [isActive]);
 
   return (
     <FullHeightInner>

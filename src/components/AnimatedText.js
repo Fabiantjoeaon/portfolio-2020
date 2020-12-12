@@ -197,6 +197,7 @@ export function AnimatedParagraph({
         ({ item, key, props: { transformY, skew } }) =>
           item && (
             <a.div
+              key={key}
               style={{
                 width: "auto",
                 height: "auto",

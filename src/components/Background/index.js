@@ -279,6 +279,9 @@ function Plane({
       mesh.current.material.uniforms["uBackgroundColor"].value = threeColor.set(
         bgColor?.get()
       );
+
+      // console.log(mesh.current.material.uniforms["uUseColor"].value);
+      // console.log(mesh.current.material.uniforms["uBackgroundColor"].value);
     }
   });
 
