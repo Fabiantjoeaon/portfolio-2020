@@ -70,12 +70,6 @@ const AnimatedTextWrapper = styled.div`
     font-family: "Modernist Bold", sans-serif;
 
     margin: 0px;
-    background: inherit;
-    -webkit-background-clip: text;
-    background-clip: text;
-    /* color: transparent; */
-    filter: grayscale(1) contrast(2);
-    mix-blend-mode: difference;
   }
   .name-first {
     margin-right: 40px;
@@ -90,7 +84,8 @@ const AnimatedTextWrapper = styled.div`
   }
   ${breakpoints.mobileDevices} {
     h1 {
-      letter-spacing: -1px;
+      letter-spacing: 0px;
+      font-size: 5em;
       font-family: "Modernist Bold", sans-serif;
     }
 

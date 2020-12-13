@@ -168,7 +168,7 @@ export function AnimatedParagraph({
   }, [text.current]);
 
   const words = useMemo(
-    () => (toggle ? items.map((w, i) => ({ id: i, word: w })) : []),
+    () => (toggle ? items.map((w, i) => ({ id: i, word: w, trail: 175 })) : []),
     [dimensions.width]
   );
 
@@ -178,8 +178,8 @@ export function AnimatedParagraph({
       transformY: dimensions.height || 100,
       skew: 40,
     },
-    enter: () => async next => {
-      await sleep(delay);
+    enter: item => async next => {
+      await sleep(delay + item.trail);
       next({ transformY: 0, skew: 0 });
     },
     leave: () => async next => {
@@ -187,10 +187,11 @@ export function AnimatedParagraph({
         next({ skew: 40, transformY: dimensions.height || 100 });
       // else next({ opacity: 0 });
     },
-    trail: 175,
+
     config: springConfig,
   });
 
+  // Maybe fix this for multiline wrapping: https://www.sitepoint.com/community/t/is-it-possible-to-detect-where-text-wraps/6606
   return (
     <div style={containerStyle} className="animated-paragraph">
       {transition.map(

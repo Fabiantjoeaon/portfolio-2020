@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { useSpring, useTransition, animated as a } from "react-spring";
 import { graphql } from "gatsby";
 import { Inner } from "../components/styled/Inner";
@@ -33,6 +33,8 @@ export default function Template({ data, path }) {
   const { width, height } = useWindowSize();
   const circleRadius = useFluidValue(width, 30, 49);
   const descriptionLineWidthRadius = useFluidValue(width, 125, 135);
+
+  const heightRef = useRef(height);
 
   const descriptionTransition = useTransition(isActive, null, {
     from: {
@@ -103,7 +105,7 @@ export default function Template({ data, path }) {
     <Inner>
       <AllowBodyScroll />
       <GeneralPostStyling />
-      <BlogTemplateInner height={height}>
+      <BlogTemplateInner height={heightRef.current}>
         <div className="project-template__intro">
           <div className="project__title">
             <AnimatedCharacters
@@ -604,6 +606,7 @@ const GeneralPostStyling = createGlobalStyle`
 
   h3 {
     font-size: 3em;
+    line-height: 1.7em;
   }
 
   .project--webgl {

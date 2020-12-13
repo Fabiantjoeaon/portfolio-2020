@@ -6,7 +6,7 @@ const colors = {
     intensity: 0,
   },
   about: {
-    value: "#ffa200",
+    value: "#FC9E4F",
     intensity: 1.0,
   },
   relive_worldview: {
@@ -26,16 +26,16 @@ const colors = {
     intensity: 0.5,
   },
   chainels_consumersites: {
-    value: "#0000FF",
-    intensity: 0.5,
+    value: "#00c3ff",
+    intensity: 0.7,
   },
   chainels_homepage: {
     value: "#fbff00",
     intensity: 0.5,
   },
   webgl_experiments: {
-    value: "#00c3ff",
-    intensity: 0.5,
+    value: "#000",
+    intensity: 1.0,
   },
 };
 
