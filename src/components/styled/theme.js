@@ -29,7 +29,7 @@ const settings = {
     desktop: "100px",
     mobile: "80px",
   },
-  initialLoadingTime: 1000,
+  initialLoadingTime: 4000,
 
   easing1: "cubic-bezier(0.666, 0, 0.237, 1)",
 };

@@ -32,7 +32,7 @@ const Layout = ({ location, children, path }) => {
   //TODO: also layout transition betwene intro and wrapper
   const initializeRef = useRef(false);
   //TEMP:
-  const [loadingDone, setLoadingDone] = useState(true);
+  const [loadingDone, setLoadingDone] = useState(false);
   const { height } = useWindowSize();
 
   const transitionProps = {
