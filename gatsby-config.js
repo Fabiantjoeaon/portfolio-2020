@@ -1,3 +1,7 @@
+const ffprobe = require("@ffprobe-installer/ffprobe");
+const ffprobe = require("@ffprobe-installer/ffprobe");
+console.log(ffprobe.path, ffprobe.version);
+
 module.exports = {
   siteMetadata: {
     title: `Fabian Tjoe-A-On`,
