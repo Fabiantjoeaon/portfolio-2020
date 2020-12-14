@@ -19,6 +19,10 @@ import { useStore } from "../BackgroundColorStore";
 import { useWindowSize } from "../hooks";
 
 const IndexPage = ({ path, loadingDone }) => {
+  const isBrowser = typeof window !== "undefined";
+
+  if (!isBrowser) return null;
+
   const isActive = useRouteActive(path, "/");
   const { width, height } = useWindowSize();
   const setColor = useStore(state => state.setColor);

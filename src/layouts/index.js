@@ -122,7 +122,11 @@ const Layout = ({ location, children, path }) => {
               </TransitionProvider>
             </StyledLayout>
           ) : (
-            <Intro key={key} style={{ opacity }} height={height}>
+            <Intro
+              key={key}
+              style={{ opacity }}
+              height={height !== 0 ? height : window.innerHeight}
+            >
               <div className="loader">
                 <AnimatedCharacters
                   TextComponent={a.h1}
@@ -259,7 +263,7 @@ const Intro = styled(a.div)`
   top: 0;
   left: 0;
   width: 100vw;
-  height: ${({ height }) => (height !== 0 ? `${height}px` : "100vh")};
+  height: ${({ height }) => height}px;
   z-index: 3;
 
   background-color: #333333;

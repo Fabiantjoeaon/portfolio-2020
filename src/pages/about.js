@@ -100,9 +100,8 @@ const AboutInner = styled.div`
   }
 
   .about__left {
-    margin-top: 100px;
-
     ${breakpoints.mobileDevices} {
+      margin-top: 100px;
       width: 100%;
       margin-bottom: 20px;
     }
@@ -110,6 +109,19 @@ const AboutInner = styled.div`
   .about__right {
     .paragraph {
       margin-bottom: 30px;
+    }
+  }
+
+  ${breakpoints.lg} {
+    font-size: 0.8em;
+
+    .about__right {
+      width: 60%;
+    }
+  }
+  ${breakpoints.mobileDevices} {
+    .about__right {
+      width: 100%;
     }
   }
 `;
