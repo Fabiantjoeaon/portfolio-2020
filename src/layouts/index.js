@@ -259,7 +259,7 @@ const Intro = styled(a.div)`
   top: 0;
   left: 0;
   width: 100vw;
-  height: ${({ height }) => height}px;
+  height: ${({ height }) => (height !== 0 ? `${height}px` : "100vh")};
   z-index: 3;
 
   background-color: #333333;
