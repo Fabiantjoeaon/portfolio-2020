@@ -37,7 +37,7 @@ const IndexPage = ({ path, loadingDone }) => {
         <SEO title="Home" />
         <AnimatedTextWrapper>
           <AnimatedCharacters
-            text={"Form follows function"}
+            text={"Digital portfolio"}
             delay={loadingDone ? 2000 : theme.initialLoadingTime + 2000 + 2000}
             TextComponent={a.h1}
             toggle={isActive}
