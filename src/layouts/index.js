@@ -61,11 +61,22 @@ const Layout = ({ location, children, path }) => {
   };
 
   useEffect(() => {
-    // navigate("/");
+    navigate("/");
     setTimeout(() => {
       initializeRef.current = true;
     }, theme.initialLoadingTime);
   }, []);
+
+  const introTrans = useTransition(
+    loadingDone,
+    null,
+    {
+      from: { opacity: 0 },
+      enter: { opacity: 1 },
+      leave: { opacity: 0 },
+    },
+    [loadingDone]
+  );
 
   const lineTrans = useTransition(
     initializeRef.current,
@@ -73,7 +84,7 @@ const Layout = ({ location, children, path }) => {
     {
       from: { scaleX: 0, transformOrigin: "right" },
       enter: () => async next => {
-        await sleep(400);
+        await sleep(2000);
         while (!initializeRef.current) {
           await next({ scaleX: 1, transformOrigin: "left" });
           await next({ scaleX: 0, transformOrigin: "right" });
@@ -95,43 +106,47 @@ const Layout = ({ location, children, path }) => {
     <ThemeProvider theme={theme}>
       {/* <PostProcessingCanvas /> */}
       <GlobalStyle></GlobalStyle>
-
-      <Intro height={height} loadingDone={loadingDone}>
-        <div className="loader">
-          <AnimatedCharacters
-            TextComponent={a.h1}
-            text={"Loading"}
-            toggle={!loadingDone}
-            delay={400}
-            animateFromOverflow={false}
-          ></AnimatedCharacters>
-          {lineTrans.map(
-            ({ item, key, props: { transformOrigin, scaleX } }) =>
-              !item && (
-                <LoaderLine
-                  key={key}
-                  style={{
-                    transformOrigin,
-                    transform: scaleX.interpolate(x => `scaleX(${x})`),
-                  }}
-                />
-              )
-          )}
-        </div>
-      </Intro>
       <Wrapper>
-        <StyledLayout>
-          <Header path={path} loadingDone={loadingDone}></Header>
-          <Background loadingDone={loadingDone} path={path} />
+        {introTrans.map(({ item, key, props: { opacity } }) => {
+          return item ? (
+            <StyledLayout key={key} style={{ opacity }}>
+              <Header path={path} loadingDone={loadingDone}></Header>
+              <Background loadingDone={loadingDone} path={path} />
 
-          <TransitionProvider {...transitionProps}>
-            <TransitionViews>
-              {cloneElement(children, {
-                loadingDone,
-              })}
-            </TransitionViews>
-          </TransitionProvider>
-        </StyledLayout>
+              <TransitionProvider {...transitionProps}>
+                <TransitionViews>
+                  {cloneElement(children, {
+                    loadingDone,
+                  })}
+                </TransitionViews>
+              </TransitionProvider>
+            </StyledLayout>
+          ) : (
+            <Intro key={key} style={{ opacity }} height={height}>
+              <div className="loader">
+                <AnimatedCharacters
+                  TextComponent={a.h1}
+                  text={"Loading"}
+                  toggle={!loadingDone}
+                  delay={2000}
+                  animateFromOverflow={false}
+                ></AnimatedCharacters>
+                {lineTrans.map(
+                  ({ item, key, props: { transformOrigin, scaleX } }) =>
+                    !item && (
+                      <LoaderLine
+                        key={key}
+                        style={{
+                          transformOrigin,
+                          transform: scaleX.interpolate(x => `scaleX(${x})`),
+                        }}
+                      />
+                    )
+                )}
+              </div>
+            </Intro>
+          );
+        })}
       </Wrapper>
     </ThemeProvider>
   );
@@ -140,7 +155,7 @@ const Layout = ({ location, children, path }) => {
 function PostProcessing() {
   const { gl } = useThree();
   gl.setClearColor("#fff");
-  gl.setClearAlpha(0.005);
+  gl.setClearAlpha(0.002);
   return (
     <>
       <EffectComposer>
@@ -199,7 +214,7 @@ const GlobalStyle = createGlobalStyle`
     }
   }
   body {
-    background-color: #1F1F1F;
+    background-color: #333333;
     font-family: "Modernist Regular", sans-serif;
     color: #fff;
     
@@ -232,14 +247,14 @@ const GlobalStyle = createGlobalStyle`
   }
 `;
 
-const StyledLayout = styled.div`
+const StyledLayout = styled(a.div)`
   width: 100%;
   position: relative;
-  /* min-height: 2000px; */
+
   z-index: 0;
 `;
 
-const Intro = styled.div`
+const Intro = styled(a.div)`
   position: fixed;
   top: 0;
   left: 0;
@@ -251,10 +266,10 @@ const Intro = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  opacity: ${({ loadingDone }) => (loadingDone ? "0" : "1")};
+  /* opacity: ${({ loadingDone }) => (loadingDone ? "0" : "1")}; */
   transition: opacity 0.3s 1s ${({ theme }) => theme.easing1};
   pointer-events: none;
-
+  opacity: 1;
   .loader {
     h1 {
       color: #242424;
