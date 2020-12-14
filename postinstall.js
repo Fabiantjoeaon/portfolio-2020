@@ -1,6 +1,7 @@
-const ffprobe = require("@ffprobe-installer/ffprobe");
-global.ffprobe = ffprobe;
-console.log(ffprobe.path, ffprobe.version);
+const ffprobePath = require("@ffprobe-installer/ffprobe").path;
+const ffmpeg = require("fluent-ffmpeg");
+ffmpeg.setFfprobePath(ffprobePath);
+
 const replace = require("replace-in-file");
 
 const removeAllSideEffectsFalseFromReactSpringPackages = async () => {
