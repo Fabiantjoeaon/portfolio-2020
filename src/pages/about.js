@@ -120,6 +120,7 @@ const AboutInner = styled.div`
     }
   }
   ${breakpoints.mobileDevices} {
+    font-size: 1em;
     .about__right {
       width: 100%;
     }
