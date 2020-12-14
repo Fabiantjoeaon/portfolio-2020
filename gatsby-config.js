@@ -1,6 +1,8 @@
 const ffprobePath = require("@ffprobe-installer/ffprobe").path;
+const ffmpegPath = require("@ffmpeg-installer/ffmpeg").path;
 const ffmpeg = require("fluent-ffmpeg");
 ffmpeg.setFfprobePath(ffprobePath);
+ffmpeg.setFfmpegPath(ffmpegPath);
 
 module.exports = {
   siteMetadata: {
