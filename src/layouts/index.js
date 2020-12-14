@@ -28,10 +28,11 @@ const Layout = ({ location, children, path }) => {
   //     }
   //   }
   // `);
+  const isBrowser = typeof window !== "undefined";
 
-  //TODO: also layout transition betwene intro and wrapper
+  if (!isBrowser) return null;
+
   const initializeRef = useRef(false);
-  //TEMP:
   const [loadingDone, setLoadingDone] = useState(false);
   const { height } = useWindowSize();
 
