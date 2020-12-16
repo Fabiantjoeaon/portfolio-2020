@@ -80,6 +80,9 @@ const AnimatedTextWrapper = styled.div`
   }
 
   ${breakpoints.mdPlus} {
+    h1 {
+      font-size: 4.8em;
+    }
     .animated-paragraph {
       h2 {
         font-size: 2.5em;

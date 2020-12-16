@@ -233,7 +233,7 @@ const StyledWork = styled.div`
   }
 
   ${breakpoints.mdPlus} {
-    height: 37%;
+    height: 42%;
     h1 {
       font-size: 4em;
     }
