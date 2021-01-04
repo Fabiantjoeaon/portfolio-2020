@@ -295,7 +295,7 @@ function Plane({
       ]}
     >
       <planeGeometry
-        args={[...planeDimensions, 1, 1]}
+        args={[...planeDimensions, 2, 2]}
         attach="geometry"
       ></planeGeometry>
       <shaderMaterial
