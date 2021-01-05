@@ -74,9 +74,8 @@ function Plane({
     function handleScroll() {
       const shouldScroll = document.documentElement.scrollTop > 150;
       if ((scrolled && !shouldScroll) || (!scrolled && shouldScroll)) {
-        if (shouldScroll) {
-          setColor("default");
-        } else setColor(path.replace("/projects/", "").replaceAll("-", "_"));
+        if (shouldScroll) setColor("default");
+        else setColor(path.replace("/projects/", "").replaceAll("-", "_"));
 
         setScrolled(shouldScroll);
       }
