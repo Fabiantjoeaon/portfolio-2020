@@ -19,7 +19,7 @@ date: "May 2018 / Nov 2018"
 <a href="https://relive.cc" target="_blank">Relive</a> creates 3D videos of your outdoor activities.
 By adding pictures, statistics and locations, these videos give a lot of context and meanings to your ride, runs and more. The downside of this being that videos
 like these can get very long.<br/><br/>
-For my first project during my internship at Relive I created Relive Cards, which are a shorter form of videos that highlight the
+For my first project during my internship at Relive I worked on Relive Cards, which are a shorter form of videos that highlight the
 important statistics of your ride.
 
 </div>
