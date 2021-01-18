@@ -313,7 +313,7 @@ export function Background({ path, loadingDone }) {
       gl={{
         antialias: false,
         powerPreference: "low-power",
-        debug: { checkShaderErrors: false },
+        debug: { checkShaderErrors: true },
       }}
     >
       <Plane
