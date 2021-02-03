@@ -67,12 +67,6 @@ const Layout = ({ location, children, path }) => {
     setTimeout(() => {
       initializeRef.current = true;
     }, theme.initialLoadingTime);
-
-    if (!isBrowser)
-      viewportUnitsBuggyfill.init({
-        force: true, // use for debug on desktop
-        refreshDebounceWait: 300, // good for performance
-      });
   }, []);
 
   const introTrans = useTransition(
