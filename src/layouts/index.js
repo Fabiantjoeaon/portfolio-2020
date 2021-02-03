@@ -1,6 +1,7 @@
 import React, { cloneElement, useRef, useState, useEffect } from "react";
 import styled, { ThemeProvider, createGlobalStyle } from "styled-components";
 import PropTypes from "prop-types";
+import viewportUnitsBuggyfill from "viewport-units-buggyfill";
 import { useStaticQuery, graphql } from "gatsby";
 import { TransitionProvider, TransitionViews } from "gatsby-plugin-transitions";
 import { Canvas, useThree } from "react-three-fiber";
@@ -66,6 +67,12 @@ const Layout = ({ location, children, path }) => {
     setTimeout(() => {
       initializeRef.current = true;
     }, theme.initialLoadingTime);
+
+    if (!isBrowser)
+      viewportUnitsBuggyfill.init({
+        force: true, // use for debug on desktop
+        refreshDebounceWait: 300, // good for performance
+      });
   }, []);
 
   const introTrans = useTransition(
