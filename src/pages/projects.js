@@ -160,7 +160,7 @@ const Projects = styled.ul`
       }
 
       ${breakpoints.mdPlus} {
-        font-size: 2.5em;
+        font-size: 2.3em;
       }
       ${breakpoints.mobileDevices} {
         font-size: 3em;

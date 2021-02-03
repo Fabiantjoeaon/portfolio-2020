@@ -47,7 +47,7 @@ export default function AboutPage({ path }) {
                 `I'm a 25 year old creative developer from Rotterdam, with a passion`,
                 "for 3D graphics on the web and electronic music.",
               ]}
-              delay={2000}
+              delay={1400}
               TextComponent={a.p}
               toggle={isActive}
             ></AnimatedParagraph>
@@ -56,9 +56,9 @@ export default function AboutPage({ path }) {
             <AnimatedParagraph
               items={[
                 "I believe in the perfect balance between pushing the browser to it's limitations",
-                "with immersive digital experiences whilst also keeping accessibility in mind.",
+                "whilst also keeping functionality in mind.",
               ]}
-              delay={2400}
+              delay={2000}
               TextComponent={a.p}
               toggle={isActive}
             ></AnimatedParagraph>
@@ -66,9 +66,9 @@ export default function AboutPage({ path }) {
           <div className="paragraph">
             <AnimatedParagraph
               items={[
-                "Currently I'm looking to do my graduation internship focussed on WebGL!",
+                "I am currenly doing an internship and my final thesis at Active Theory.",
               ]}
-              delay={2800}
+              delay={2400}
               TextComponent={a.p}
               toggle={isActive}
             ></AnimatedParagraph>

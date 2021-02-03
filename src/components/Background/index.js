@@ -260,28 +260,26 @@ function Plane({
   }, [windowWidth, windowHeight, defaultCameraZ]);
 
   useFrame(({ clock }) => {
-    if (mesh.current) {
-      const p = pos?.get();
-      mesh.current.material.uniforms["uMouse"].value.x = p[0];
-      mesh.current.material.uniforms["uMouse"].value.y = p[1];
+    if (!mesh.current) return;
 
-      mesh.current.material.uniforms["uTime"].value = clock.elapsedTime / 7;
+    const p = pos?.get();
+    mesh.current.material.uniforms["uMouse"].value.x = p[0];
+    mesh.current.material.uniforms["uMouse"].value.y = p[1];
 
-      if (!hasColor)
-        mesh.current.material.uniforms[
-          "uHasColor"
-        ].value = colorTransform?.get();
-      if (shouldTransition)
-        mesh.current.material.uniforms["uAlpha"].value = opacity?.get();
+    mesh.current.material.uniforms["uTime"].value = clock.elapsedTime / 7;
 
-      mesh.current.material.uniforms["uUseColor"].value = bgIntensity?.get();
-      mesh.current.material.uniforms["uBackgroundColor"].value = threeColor.set(
-        bgColor?.get()
-      );
+    if (!hasColor)
+      mesh.current.material.uniforms["uHasColor"].value = colorTransform?.get();
+    if (shouldTransition)
+      mesh.current.material.uniforms["uAlpha"].value = opacity?.get();
 
-      // console.log(mesh.current.material.uniforms["uUseColor"].value);
-      // console.log(mesh.current.material.uniforms["uBackgroundColor"].value);
-    }
+    mesh.current.material.uniforms["uUseColor"].value = bgIntensity?.get();
+    mesh.current.material.uniforms["uBackgroundColor"].value = threeColor.set(
+      bgColor?.get()
+    );
+
+    // console.log(mesh.current.material.uniforms["uUseColor"].value);
+    // console.log(mesh.current.material.uniforms["uBackgroundColor"].value);
   });
 
   return (
