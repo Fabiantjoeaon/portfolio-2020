@@ -626,7 +626,7 @@ const GeneralPostStyling = createGlobalStyle`
   }
 
   p {
-    font-family: "Castoro Regular", sans-serif;
+    font-family: "Modernist Regular", sans-serif;
     font-size: 1.3em;
   }
 

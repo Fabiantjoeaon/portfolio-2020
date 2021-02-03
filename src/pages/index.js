@@ -3,7 +3,7 @@ import { Link } from "gatsby";
 import styled from "styled-components";
 import { animated as a } from "react-spring";
 
-import Image from "../components/image";
+import viewportUnitsBuggyfill from "viewport-units-buggyfill";
 
 import SEO from "../components/seo";
 import { useRouteActive } from "../hooks";
@@ -28,6 +28,10 @@ const IndexPage = ({ path, loadingDone }) => {
   const setColor = useStore(state => state.setColor);
 
   useLayoutEffect(() => {
+    viewportUnitsBuggyfill.init({
+      force: true, // use for debug on desktop
+      refreshDebounceWait: 300, // good for performance
+    });
     isActive && setColor("default");
   }, [isActive]);
 

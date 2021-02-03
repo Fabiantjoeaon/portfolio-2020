@@ -193,7 +193,10 @@ const StyledCanvas = styled(Canvas)`
   height: 100vh;
 `;
 
-const Wrapper = styled.div``;
+const Wrapper = styled.div`
+  overflow: hidden;
+  /* max-height: 100vh; */
+`;
 
 const GlobalStyle = createGlobalStyle`
   html, body{
@@ -264,7 +267,8 @@ const Intro = styled(a.div)`
   top: 0;
   left: 0;
   width: 100vw;
-  height: ${({ height }) => height}px;
+  /* height: ${({ height }) => height}px; */
+  height: 100vh;
   z-index: 3;
 
   background-color: #333333;
