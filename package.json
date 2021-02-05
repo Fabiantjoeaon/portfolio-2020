@@ -40,7 +40,6 @@
     "replace-in-file": "^6.1.0",
     "styled-components": "^5.2.1",
     "three": "^0.122.0",
-    "viewport-units-buggyfill": "^0.6.2",
     "zustand": "^3.2.0"
   },
   "devDependencies": {
