@@ -310,7 +310,7 @@ export function Background({ path, loadingDone }) {
     <StyledCanvas
       gl={{
         antialias: false,
-        powerPreference: "low-power",
+        powerPreference: "high-performance",
         debug: { checkShaderErrors: true },
       }}
     >
