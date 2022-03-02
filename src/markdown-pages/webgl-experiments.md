@@ -74,6 +74,7 @@ Visit <a href="https://fabiantjoeaon.github.io/webgl-image-manipulation/" target
 </div>
 </div>
 
+<!--
 <div class="project--webgl content__wrapper">
 <div class="content__left">
 
@@ -116,3 +117,4 @@ Visit <a href="https://fabiantjoeaon.github.io/sphere-perlin-vertex/" target="_b
 
 </div>
 </div>
+-->

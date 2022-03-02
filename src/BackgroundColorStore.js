@@ -13,22 +13,22 @@ const colors = {
     value: "#437844",
     intensity: 0.5,
   },
-  relive_cards: {
-    value: "#04ff00",
-    intensity: 0.5,
-  },
+  // relive_cards: {
+  //   value: "#04ff00",
+  //   intensity: 0.5,
+  // },
   train_met_lef: {
     value: "#ff00bb",
     intensity: 0.5,
   },
-  changeroo: {
-    value: "#ff9500",
-    intensity: 0.5,
-  },
-  chainels_consumersites: {
-    value: "#00c3ff",
-    intensity: 0.7,
-  },
+  // changeroo: {
+  //   value: "#ff9500",
+  //   intensity: 0.5,
+  // },
+  // chainels_consumersites: {
+  //   value: "#00c3ff",
+  //   intensity: 0.7,
+  // },
   chainels_homepage: {
     value: "#fbff00",
     intensity: 0.5,
