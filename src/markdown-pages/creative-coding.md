@@ -14,7 +14,27 @@ attachments:
   - "./assets/webgl-experiments_grid.png"
   - "./assets/webgl-experiments_image.png"
   - "./assets/game-of-life.png"
+  - "./assets/particles-curl.png"
 ---
+
+<div class="project--webgl content__wrapper">
+<div class="content__left">
+
+## GPU FBO particles with curl noise
+
+GPU accelerated particle system with some basic curl noise<br/>
+
+Build in THREE
+
+Visit <a href="https://fabiantjoeaon.github.io/matter-example-curl/" target="_blank">here</a>
+
+</div>
+<div class="content__right vert-align w-50">
+
+<img src="./assets/particles-curl.png" />
+
+</div>
+</div>
 
 <div class="project--webgl content__wrapper">
 <div class="content__left">
