@@ -48,7 +48,7 @@ const IndexPage = ({ path, loadingDone }) => {
         <AnimatedParagraph
           items={["Creative developer", "from Rotterdam"]}
           toggle={isActive}
-          delay={loadingDone ? 3500 : theme.initialLoadingTime + 3500 + 2000}
+          delay={loadingDone ? 3000 : theme.initialLoadingTime + 3000 + 2000}
           containerStyle={{ textAlign: "right" }}
           TextComponent={a.h2}
         ></AnimatedParagraph>

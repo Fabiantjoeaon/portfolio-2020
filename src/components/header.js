@@ -54,7 +54,7 @@ const Header = ({ siteTitle, loadingDone, path }) => {
                 About me
               </Link>
               <Link activeClassName={"active"} to="/projects">
-                Selected work
+                Work
               </Link>
             </div>
 

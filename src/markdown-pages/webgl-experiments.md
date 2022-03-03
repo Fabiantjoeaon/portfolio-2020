@@ -1,20 +1,40 @@
 ---
-title: "WebGL Experiments"
+title: "Creative coding"
 order: 1
 tools:
   - "Three.js"
   - "Regl"
   - "WebGL"
-description: "3D coding experiments and sketches made in my spare time"
-slug: "/projects/webgl-experiments"
+description: "(3D) coding experiments and sketches made in my spare time"
+slug: "/projects/creative-coding"
 client: "None"
 date: "2017 / Now"
 attachments:
   - "./assets/webgl-experiments_planets.png"
   - "./assets/webgl-experiments_grid.png"
   - "./assets/webgl-experiments_image.png"
-  - "./assets/webgl-experiments_march-cubes.png"
+  - "./assets/game-of-life.png"
 ---
+
+<div class="project--webgl content__wrapper">
+<div class="content__left">
+
+## Organic Game of Life
+
+Grid based version of Conway's Game of Life with color fading.<br/>
+Additional rules are applied to give the grid an organic feel.
+
+Build in canvas
+
+Visit <a href="https://fabiantjoeaon.github.io/game_of_life/" target="_blank">here</a>
+
+</div>
+<div class="content__right vert-align w-50">
+
+<img src="./assets/game-of-life.png" />
+
+</div>
+</div>
 
 <div class="project--webgl content__wrapper">
 <div class="content__left">

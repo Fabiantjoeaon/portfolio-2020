@@ -44,31 +44,31 @@ export default function AboutPage({ path }) {
           <div className="paragraph">
             <AnimatedParagraph
               items={[
-                `I'm a 25 year old creative developer from Rotterdam, with a passion`,
-                "for 3D graphics on the web and electronic music.",
+                `I'm a 26 year old creative developer from Rotterdam, with a passion`,
+                "for (3D) graphics on the web and electronic music.",
+              ]}
+              delay={1000}
+              TextComponent={a.p}
+              toggle={isActive}
+            ></AnimatedParagraph>
+          </div>
+          <div className="paragraph">
+            <AnimatedParagraph
+              items={[
+                "I love digital immersive experiences, pushing the browser to it's limitations",
+                "- and if necessary, keeping functionality in mind.",
+              ]}
+              delay={1200}
+              TextComponent={a.p}
+              toggle={isActive}
+            ></AnimatedParagraph>
+          </div>
+          <div className="paragraph">
+            <AnimatedParagraph
+              items={[
+                "I am currenly working as a front-end developer at Active Theory.",
               ]}
               delay={1400}
-              TextComponent={a.p}
-              toggle={isActive}
-            ></AnimatedParagraph>
-          </div>
-          <div className="paragraph">
-            <AnimatedParagraph
-              items={[
-                "I believe in the perfect balance between pushing the browser to it's limitations",
-                "whilst also keeping functionality in mind.",
-              ]}
-              delay={2000}
-              TextComponent={a.p}
-              toggle={isActive}
-            ></AnimatedParagraph>
-          </div>
-          <div className="paragraph">
-            <AnimatedParagraph
-              items={[
-                "I am currenly doing an internship and my final thesis at Active Theory.",
-              ]}
-              delay={2400}
               TextComponent={a.p}
               toggle={isActive}
             ></AnimatedParagraph>

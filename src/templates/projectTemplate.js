@@ -18,7 +18,7 @@ import AnimatedLine from "../components/AnimatedLine";
 export default function Template({ data, path }) {
   const { markdownRemark } = data;
   const {
-    frontmatter: { description, title, date },
+    frontmatter: { description, title, date, link: projectLink },
     html,
   } = markdownRemark;
 
@@ -101,6 +101,35 @@ export default function Template({ data, path }) {
     },
   });
 
+  const linkComponent = ({ item, key, props: { opacity, y } }) =>
+    projectLink ? (
+      <a.a
+        href={projectLink}
+        target="_blank"
+        key={key}
+        style={{
+          opacity,
+          transform: y.interpolate(yVal => `translate3d(0px, ${yVal}px, 0px)`),
+        }}
+      >
+        Visit site here
+      </a.a>
+    ) : (
+      item && (
+        <a.span
+          key={key}
+          style={{
+            opacity,
+            transform: y.interpolate(
+              yVal => `translate3d(0px, ${yVal}px, 0px)`
+            ),
+          }}
+        >
+          Scroll down to learn more
+        </a.span>
+      )
+    );
+
   return (
     <Inner>
       <AllowBodyScroll />
@@ -116,8 +145,8 @@ export default function Template({ data, path }) {
               toggle={isActive}
               TextComponent={a.h1}
               breakConditions={{
-                width: widthMap.lg,
-                characterLength: 20,
+                width: widthMap.sm,
+                characterLength: 10,
               }}
             />
           </div>
@@ -226,22 +255,7 @@ export default function Template({ data, path }) {
                 ></AnimatedCharacters>
               </div>
               <div className="project__scroll">
-                {scrollTextTransition.map(
-                  ({ item, key, props: { opacity, y } }) =>
-                    item && (
-                      <a.span
-                        key={key}
-                        style={{
-                          opacity,
-                          transform: y.interpolate(
-                            yVal => `translate3d(0px, ${yVal}px, 0px)`
-                          ),
-                        }}
-                      >
-                        Scroll down to learn more
-                      </a.span>
-                    )
-                )}
+                {scrollTextTransition.map(linkComponent)}
               </div>
             </div>
           </div>
@@ -265,6 +279,8 @@ export const pageQuery = graphql`
         description
         tools
         client
+        link
+        agency
         date
         order
       }
@@ -310,6 +326,7 @@ const BlogTemplateInner = styled.div`
       /* color: rgba(0, 0, 0, 0); */
       letter-spacing: 1px;
       margin: 0px 0px;
+      line-height: 1;
     }
 
     ${breakpoints.mobileDevices} {
@@ -325,7 +342,7 @@ const BlogTemplateInner = styled.div`
     }
 
     ${breakpoints.smPlus} {
-      margin-top: 50px;
+      margin-top: 10px;
     }
   }
 

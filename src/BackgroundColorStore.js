@@ -17,10 +17,22 @@ const colors = {
   //   value: "#04ff00",
   //   intensity: 0.5,
   // },
-  train_met_lef: {
+  // train_met_lef: {
+  //   value: "#ff00bb",
+  //   intensity: 0.5,
+  // },
+  lv_200: {
+    value: "#ff9500",
+    intensity: 0.6,
+  },  
+  spotify_made_to_be_found: {
+    value: "#437844",
+    intensity: 0.8,
+  },  
+  wsj_the_field: {
     value: "#ff00bb",
     intensity: 0.5,
-  },
+  },  
   // changeroo: {
   //   value: "#ff9500",
   //   intensity: 0.5,
@@ -33,7 +45,7 @@ const colors = {
     value: "#fbff00",
     intensity: 0.5,
   },
-  webgl_experiments: {
+  creative_coding: {
     value: "#000",
     intensity: 1.0,
   },

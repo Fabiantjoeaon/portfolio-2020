@@ -52,7 +52,7 @@ export default function ProjectPage({
     <FullHeightInner>
       <StyledWork>
         <AnimatedCharacters
-          text={"Selected work"}
+          text={"my output"}
           animateX
           animateY={false}
           toggle={isActive}
@@ -116,6 +116,8 @@ export const pageQuery = graphql`
             description
             tools
             client
+            link
+            agency
             date
             order
           }
