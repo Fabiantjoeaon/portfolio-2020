@@ -55,7 +55,7 @@ export default function AboutPage({ path }) {
           <div className="paragraph">
             <AnimatedParagraph
               items={[
-                "I love digital immersive experiences, pushing the browser to it's limitations",
+                "I love digital immersive experiences, pushing the browser to its limitations",
                 "- and if necessary, keeping functionality in mind.",
               ]}
               delay={1200}
@@ -66,7 +66,7 @@ export default function AboutPage({ path }) {
           <div className="paragraph">
             <AnimatedParagraph
               items={[
-                "I am currenly working as a front-end developer at Active Theory.",
+                "I am currently working as a front-end developer at Active Theory.",
               ]}
               delay={1400}
               TextComponent={a.p}
